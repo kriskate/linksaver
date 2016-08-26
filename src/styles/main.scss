@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:100,400);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500:latin);
 
 $main-bg-color: #f1f2f0;
 $accent-blue: #37bbe4;
@@ -12,7 +12,7 @@ body {
   color: $accent-black;
   display: flex;
   justify-content: center;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .main-app-container {
