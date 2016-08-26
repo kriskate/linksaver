@@ -1,7 +1,7 @@
 {
-  "name": "generator-simple-redux",
-  "version": "1.0.0",
-  "description": "My simple redux application.",
+  "name": "linksaver",
+  "version": "0.1.0",
+  "description": "A simple bookmark manager",
   "scripts": {
     "clean": "rimraf dist",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
@@ -12,10 +12,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tsaiDavid/simple-redux-boilerplate.git"
+    "url": "git+https://github.com/kriskate/linksaver.git"
   },
   "license": "MIT",
-  "homepage": "https://github.com/tsaiDavid/simple-redux-boilerplate",
+  "homepage": "https://kriskate.github.io/linksaver",
   "devDependencies": {
     "autoprefixer": "^6.3.1",
     "babel-core": "^6.3.15",
