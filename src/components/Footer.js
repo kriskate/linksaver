@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
+import { red800 } from 'material-ui/styles/colors'
 
-export default class Footer extends Component {
+
+const styles = {
+  footer: {
+    fontSize: '14px',
+    textAlign: 'center',
+    paddingTop: '5em',
+    paddingBottom: '3em',
+  },
+  heart: {
+    color: red800,
+  },
+}
+class Footer extends Component {
   render() {
     return (
-      <footer>
-        <span id="footer-text-wrap">
-        Made in SF with <span id="heart">♥</span> by <a href="http://www.davidtsai.codes">David Tsai</a>.
-        </span>
-      </footer>
+      <div style={styles.footer}>
+        Linksaver - bookmark all your <span style={styles.heart}>♥</span> links
+      </div>
     );
   }
 }
+export default Footer

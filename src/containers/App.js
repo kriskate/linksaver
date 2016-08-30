@@ -1,32 +1,56 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
+import * as actions from '../actions/'
 import { connect } from 'react-redux';
-import * as CounterActions from '../actions/CounterActions';
-import Counter from '../components/Counter';
+
+import Landing from './Landing';
+
+import withWidth, {MEDIUM, LARGE} from 'material-ui/utils/withWidth';
+
+import AppNavDrawer from '../components/AppNavDrawer'
+import Content from '../containers/Content'
+import Synchronize from '../containers/Synchronize'
 import Footer from '../components/Footer';
 
-/**
- * It is common practice to have a 'Root' container/component require our main App (this one).
- * Again, this is because it serves to wrap the rest of our application with the Provider
- * component to make the Redux store available to the rest of the app.
- */
-export default class App extends Component {
+export class App extends Component {
   render() {
     // we can use ES6's object destructuring to effectively 'unpack' our props
-    const { counter, actions } = this.props;
+    const {
+      loggedIn, synchronized,
+      drawerDocked, drawerOpen,
+      folders,
+      actions, dispatch,
+      width, lastWidth,
+      drawerChangeList, drawerNav,
+      user,
+    } = this.props;
+console.log(folders)
+console.log(folders.current.links)
+    let _drawerDocked = width > MEDIUM,
+        _drawerOpen = _drawerDocked ? true : drawerOpen
     return (
-      <div className="main-app-container">
-        <div className="main-app-nav">Simple Redux Boilerplate</div>
-        {/* notice that we then pass those unpacked props into the Counter component */}
-        <Counter counter={counter} actions={actions} />
-        <Footer />
-      </div>
+      loggedIn
+      ? synchronized
+        ? <div>
+            <AppNavDrawer
+              /*location={location}*/
+              user={user}
+              docked={_drawerDocked} open={_drawerOpen}
+              folders={folders}
+              drawerNav={actions.toggleDrawerOpen}
+              drawerChangeList={(event, folder) => { actions.folderSelected(folder); actions.toggleDrawerOpen(false); }} />
+            <div style={{paddingLeft: !_drawerDocked ? 0 : 256, transition: 'all 100ms'}} >
+              <Content current={folders.current} showMenuIconButton={!_drawerDocked} />
+              <Footer />
+            </div>
+          </div>
+        : <Synchronize />
+      : <Landing />
     );
   }
 }
 
 App.propTypes = {
-  counter: PropTypes.number.isRequired,
   actions: PropTypes.object.isRequired
 };
 
@@ -36,8 +60,14 @@ App.propTypes = {
  * object. By mapping it to props, we can pass it to the child component Counter.
  */
 function mapStateToProps(state) {
+  console.log(state, state.local.user)
   return {
-    counter: state.counter
+    loggedIn: state.local.loggedIn,
+    drawerDocked: state.local.drawerDocked,
+    drawerOpen: state.local.drawerOpen,
+    synchronized: state.local.synchronized,
+    user: state.local.user,
+    folders: state.folders,
   };
 }
 
@@ -50,8 +80,12 @@ function mapStateToProps(state) {
  * More info: http://redux.js.org/docs/api/bindActionCreators.html
  */
 function mapDispatchToProps(dispatch) {
+  let inc = 1
+  setTimeout(function(){ dispatch(actions.logInChange(true)) }, inc)
+  setTimeout(function(){ dispatch(actions.synchChange(true))}, inc*2)
+  //setTimeout(function(){ dispatch(actions.toggleDrawerDock())}, inc*3)
   return {
-    actions: bindActionCreators(CounterActions, dispatch)
+    actions: bindActionCreators(/*CounterActions,*/actions, dispatch)
   };
 }
 
@@ -66,4 +100,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(withWidth()(App));

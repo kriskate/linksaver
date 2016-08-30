@@ -40,7 +40,7 @@ module.exports = {
         test: /\.js?/,
         exclude: [/node_modules/, /styles/],
         loaders: ['babel'],
-        include: path.join(__dirname, 'src')
+        include: [path.join(__dirname, 'src'), path.join(__dirname, 'img')]
       },
       {
         test: /\.scss$/,
