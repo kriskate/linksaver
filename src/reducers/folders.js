@@ -29,7 +29,7 @@ for(let i = 0; i < min + Math.floor(Math.random()*(max-min)); i++){
     url: "https://www.seedrs.com/invest",
     pic: `https://placekitten.com/${r}/${r}`,
     name: "Link name " + String(i),
-    description: uuid.v4() + " Description " + String(i),
+    description: " Description " + String(i) + ": " + uuid.v4(),
     parent
   })
   )

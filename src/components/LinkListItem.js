@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, { PropTypes, Component } from 'react'
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 
@@ -30,7 +30,7 @@ const rightIconMenuExpanded = (
   <div>
     <IconButton tooltip="Edit"><IconEdit/></IconButton>
     <IconButton tooltip="Delete"><IconDelete/></IconButton>
-    <IconButton tooltip="Copy URL"><IconCopy/></IconButton>
+    <IconButton tooltip={<span>Copy Link to <br/>clipboard</span>}><IconCopy/></IconButton>
   </div>
 )
 const rightIconMenu = (
@@ -58,8 +58,7 @@ let Link = ({ name, url, pic, description, date_expire, card }) => (
       dsa
     </CardText>
   </Card>
-  :
-  <div className="material-animated">
+  : <div className="material-animated">
    <ListItem
     leftAvatar={<Avatar src={pic} />}
     rightIconButton={rightIconMenuExpanded}

@@ -22,7 +22,7 @@ export default class Storage {
         { this.readData_done(snapshot.val()) } );
   }
   readData_done(data){
-    console.log(JSON.parse(JSON.stringify(data)));
+    // console.log(JSON.parse(JSON.stringify(data)));
   }
   writeData(name, email, imageUrl) {
     firebase.database().ref('users/' + username).set(

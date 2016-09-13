@@ -12,6 +12,14 @@ import Content from '../containers/Content'
 import Synchronize from '../containers/Synchronize'
 import Footer from '../components/Footer';
 
+
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+
+
+const styles = {
+  floatingButton: { position: "fixed", marginRight: 20, marginBottom: 20, },
+}
 export class App extends Component {
   render() {
     // we can use ES6's object destructuring to effectively 'unpack' our props
@@ -24,8 +32,7 @@ export class App extends Component {
       drawerChangeList, drawerNav,
       user,
     } = this.props;
-console.log(folders)
-console.log(folders.current.links)
+
     let _drawerDocked = width > MEDIUM,
         _drawerOpen = _drawerDocked ? true : drawerOpen
     return (
@@ -42,11 +49,15 @@ console.log(folders.current.links)
             <div style={{paddingLeft: !_drawerDocked ? 0 : 256, transition: 'all 100ms'}} >
               <Content current={folders.current} showMenuIconButton={!_drawerDocked} />
               <Footer />
+
+              <FloatingActionButton style={styles.floatingButton}>
+                <ContentAdd />
+              </FloatingActionButton>
             </div>
           </div>
         : <Synchronize />
       : <Landing />
-    );
+    )
   }
 }
 
@@ -60,7 +71,7 @@ App.propTypes = {
  * object. By mapping it to props, we can pass it to the child component Counter.
  */
 function mapStateToProps(state) {
-  console.log(state, state.local.user)
+  //console.log(state, state.local.user)
   return {
     loggedIn: state.local.loggedIn,
     drawerDocked: state.local.drawerDocked,

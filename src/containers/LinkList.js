@@ -4,16 +4,24 @@ import Link from '../components/Link'
 import LinkModel from '../constants/Models'
 
 // material-ui
-import {List, ListItem} from 'material-ui/List';
+import {List} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 
 
-let LinkList = ({ currentFID, links }) => (
-  <List style={{backgroundColor:"white"}}>
-        <Subheader>4 stars</Subheader>
-    { links.filter((link) => link.parent.id == currentFID).map((link, id) =>
-        <Link key={id} {...link} />
+
+const styles = {
+  list: {
+    position: "relative",
+    backgroundColor: "white",
+  },
+}
+
+let LinkList = ({ currentF, links }) => (
+  <List style={styles.list}>
+        <Subheader>{currentF.name}</Subheader>
+    { links.filter((link) => link.parent.id == currentF.id).map((link, id) =>
+        <Link card={false} key={id} {...link} />
     )}
   </List>
 )
@@ -24,7 +32,7 @@ LinkList.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   return {
     links: ownProps.links,
-    currentFID: state.folders.current.id,
+    currentF: state.folders.current,
   }
 }
 

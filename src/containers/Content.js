@@ -2,16 +2,17 @@ import LinkList from './LinkList'
 import React, { PropTypes } from 'react'
 import IconButton from 'material-ui/IconButton'
 import AppBar from 'material-ui/AppBar'
-import AddLink from './AddLink'
 import { connect } from 'react-redux'
 import { toggleDrawerOpen } from '../actions'
+
+
+
 
 
 const styles = {
   all: { transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms', },
   appBar: { zIndex: 2, position: 'fixed', top: 0, },
   content: { zIndex: 0, marginTop: 64/* appbar height */, },
-
 }
 
 let Content = ({
@@ -19,7 +20,6 @@ let Content = ({
   /* content */ current,
 }) => (
   <div>
-    <AddLink/>
     <AppBar zDepth={0} style={styles.appBar}
       title={current.name}
       iconElementRight={
@@ -31,9 +31,9 @@ let Content = ({
       onLeftIconButtonTouchTap={ onLeftIconButtonTouchTap }
       showMenuIconButton={ showMenuIconButton }
     />
-    <div style={ styles.content }>
+    <main style={ styles.content }>
       <LinkList links={current.links} />
-    </div>
+    </main>
   </div>
 )
 
