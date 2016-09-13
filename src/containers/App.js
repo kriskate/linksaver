@@ -12,14 +12,8 @@ import Content from '../containers/Content'
 import Synchronize from '../containers/Synchronize'
 import Footer from '../components/Footer';
 
+import AddLinkFloatingButton from './AddLinkFloatingButton'
 
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-
-
-const styles = {
-  floatingButton: { position: "fixed", marginRight: 20, marginBottom: 20, },
-}
 export class App extends Component {
   render() {
     const {
@@ -40,15 +34,12 @@ export class App extends Component {
               /*location={location}*/
               user={user} folders={folders}
               docked={_drawerDocked} open={_drawerOpen} />
+            <AddLinkFloatingButton/>
             <div
               className="material-animated-simple" /* will only be noticed when resizing the window on desktops */
               style={{ paddingLeft: !_drawerDocked ? 0 : 256 }} >
               <Content current={folders.current} showMenuIconButton={!_drawerDocked} />
               <Footer />
-
-              <FloatingActionButton style={styles.floatingButton}>
-                <ContentAdd />
-              </FloatingActionButton>
             </div>
           </div>
         : <Synchronize />
