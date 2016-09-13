@@ -1,13 +1,8 @@
-/**
- * Constants are important - they describe what type of action is performed
- * within your app. Combined with the DevTools/logger, you can see how state and subsequently
- * your UI is being affected.
- */
-export const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
-export const DECREMENT_COUNTER = 'DECREMENT_COUNTER';
-
 export const LINK_ADD = "LINK_ADD"
 export const LINK_DELETE = "LINK_DELETE"
+export const LINK_EDIT = "LINK_EDIT"
+export const LINK_COPYURL = "LINK_COPYURL"
+
 
 export const FOLDER_ADD = "FOLDER_ADD"
 export const FOLDER_DELETE = "FOLDER_DELETE"

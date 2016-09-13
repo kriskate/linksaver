@@ -1,10 +1,21 @@
 import {
-  LINK_ADD, LINK_DELETE,
+  LINK_ADD, LINK_DELETE, LINK_EDIT, LINK_COPYURL,
   FOLDER_ADD, FOLDER_DELETE, FOLDER_SELECTED,
   TOGGLE_DRAWER_DOCK, TOGGLE_DRAWER_OPEN,
   SYNCH_CHANGE, LOG_IN_CHANGE
 } from '../constants/ActionTypes'
 
+export const linkEdit = (link) => {
+    return {
+      type: LINK_EDIT, link
+    }
+}
+export const linkCopyURL = (link, a) => {
+  console.log('link,a',link,a)
+  return {
+    type: LINK_COPYURL
+  }
+}
 export const linkAdd = ({ url, id, name, description, date_added, date_expire, stars, archived, parent }) => {
   return {
     type: LINK_ADD, id,

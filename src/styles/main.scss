@@ -20,5 +20,5 @@ body {
 }
 /*for transitions on bigger objects (css transition cubic-bezier will distort divs)*/
 .material-animated-simple{
-  transition: 'all 100ms';
+  transition: all 100ms;
 }

@@ -10,6 +10,7 @@ const initialState = {
   autoLogCookie: true,
   drawerOpen: false,
 }
+
 export default function localReducer (state = initialState, action){
   switch (action.type) {
     case TOGGLE_DRAWER_DOCK:

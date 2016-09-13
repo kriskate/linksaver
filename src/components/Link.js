@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react'
+
+// material-ui
+
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 
-// material-ui
 import { ListItem } from 'material-ui/List'
 import Avatar from 'material-ui/Avatar';
 import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
@@ -16,6 +18,12 @@ import IconEdit from 'material-ui/svg-icons/editor/mode-edit';
 import IconDelete from 'material-ui/svg-icons/action/delete';
 import IconCopy from 'material-ui/svg-icons/content/content-copy';
 
+const styles = {
+  rightIconMenuExpanded: {
+    /* bugfix for last button's tooltip */
+    paddingRight: 5,
+  }
+}
 const iconButtonElement = (
   <IconButton
     touch={true}
