@@ -1,4 +1,8 @@
 import React, {Component, PropTypes} from 'react';
+import { connect } from 'react-redux'
+import { toggleDrawerOpen, folderSelected } from '../actions'
+
+
 import Drawer from 'material-ui/Drawer';
 import {List, ListItem, MakeSelectable} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
@@ -37,15 +41,6 @@ const styles = {
   )
 class AppNavDrawer extends Component {
 
-
-  handleRequestChangeLink (event, value) {
-    //window.location = value;
-  };
-
-  handleTouchTapHeader () {
-    //this.props.onRequestChangeNavDrawer(false);
-  };
-
   render() {
     const { folders, location, docked,
             drawerNav, drawerChangeList,
@@ -58,7 +53,7 @@ class AppNavDrawer extends Component {
         open={open}
         onRequestChange={drawerNav}
         containerStyle={{zIndex: zIndex.drawer - 100}} >
-        <div style={styles.logo} onTouchTap={this.handleTouchTapHeader}>
+        <div style={styles.logo}>
           Linksaver
         </div>
         <Divider />
@@ -88,5 +83,19 @@ class AppNavDrawer extends Component {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    /* triggered when black overlay is clicked */
+    drawerNav: () => dispatch(toggleDrawerOpen()),
+    /* triggered when a menu item is clicked */
+    drawerChangeList: (event, folder) => {
+      dispatch(folderSelected(folder));
+      dispatch(toggleDrawerOpen(false));
+    }
+  }
+}
+
+AppNavDrawer = connect(null, mapDispatchToProps)(AppNavDrawer);
 
 export default AppNavDrawer;
