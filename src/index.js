@@ -27,4 +27,4 @@ ReactDOM.render(
   </MuiThemeProvider>,
   domRoot
 );
-domRoot.style = {};
+domRoot.removeAttribute("style")
