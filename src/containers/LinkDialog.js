@@ -47,7 +47,7 @@ const
 
 function composeLink_DialogLink(edit){
   //console.log(tempState)
-  // if editing, clear state.local.link_dialog for a fresh link; else, leave the fields pre-completed
+  // to-do: if editing, clear state.local.link_dialog for a fresh link; else, leave the fields pre-completed
   if(edit) return {}
   return tempState
 }
