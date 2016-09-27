@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 
 // material-ui
+import withWidth, { SMALL } from 'material-ui/utils/withWidth'
 
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
@@ -19,9 +20,18 @@ import IconDelete from 'material-ui/svg-icons/action/delete';
 import IconCopy from 'material-ui/svg-icons/content/content-copy';
 
 const styles = {
+  rightIconMenu: {
+    position:"absolute",
+    right: 5,
+  },
   rightIconMenuExpanded: {
     /* bugfix for last button's tooltip */
+    right: 5,
+    position:'absolute',
+  },
+  menuExpanded: {
     paddingRight: 5,
+
   }
 }
 const iconButtonElement = (
@@ -34,24 +44,28 @@ const iconButtonElement = (
   </IconButton>
 );
 
-const rightIconMenuExpanded = (
-  <div>
-    <IconButton tooltip="Edit"><IconEdit/></IconButton>
-    <IconButton tooltip="Delete"><IconDelete/></IconButton>
-    <IconButton tooltip="Copy URL"><IconCopy/></IconButton>
+let RightIconMenuExpanded = ({ linkEdit, linkCopyURL, linkDelete }) => (
+  <div style={styles.rightIconMenuExpanded}>
+    <IconButton onTouchTap={linkEdit} tooltip="Edit"><IconEdit/></IconButton>
+    <IconButton onTouchTap={linkCopyURL} tooltip="Copy URL"><IconCopy/></IconButton>
+    <IconButton onTouchTap={linkDelete} tooltip="Delete"><IconDelete/></IconButton>
   </div>
 )
-const rightIconMenu = (
-  <IconMenu iconButtonElement={iconButtonElement}
+let RightIconMenu = ({ linkEdit, linkCopyURL, linkDelete }) => (
+  <IconMenu  style={styles.rightIconMenu}
+  iconButtonElement={iconButtonElement}
       anchorOrigin={{horizontal: 'right', vertical: 'top'}}
       targetOrigin={{horizontal: 'right', vertical: 'top'}}>
-    <MenuItem>Edit</MenuItem>
-    <MenuItem>Copy to clipboard</MenuItem>
-    <MenuItem>Delete</MenuItem>
+    <MenuItem onTouchTap={linkEdit} >Edit</MenuItem>
+    <MenuItem onTouchTap={linkCopyURL} >Copy to clipboard</MenuItem>
+    <MenuItem onTouchTap={linkDelete} >Delete</MenuItem>
   </IconMenu>
 );
 
-let Link = ({ name, url, pic, description, date_expire, card }) => (
+let Link = ({ width,
+    name, url, pic, description, date_expire, card,
+    linkEdit, linkCopyURL, linkDelete,
+  }) => (
   // to-do
   card ?
   <Card className="material-animated">
@@ -68,9 +82,23 @@ let Link = ({ name, url, pic, description, date_expire, card }) => (
   </Card>
   :
   <div className="material-animated">
-   <ListItem
+   <ListItem href={url} target="_blank"
     leftAvatar={<Avatar src={pic} />}
-    rightIconButton={rightIconMenuExpanded}
+    rightIconButton={ width <= SMALL ?
+        <IconMenu iconButtonElement={iconButtonElement}
+            anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+            targetOrigin={{horizontal: 'right', vertical: 'top'}}>
+          <MenuItem onTouchTap={linkEdit} >Edit</MenuItem>
+          <MenuItem onTouchTap={linkCopyURL} >Copy to clipboard</MenuItem>
+          <MenuItem onTouchTap={linkDelete} >Delete</MenuItem>
+        </IconMenu>
+        :
+        <div style={styles.rightIconMenuExpanded}>
+          <IconButton onTouchTap={linkEdit} tooltip="Edit"><IconEdit/></IconButton>
+          <IconButton onTouchTap={linkCopyURL} tooltip="Copy URL"><IconCopy/></IconButton>
+          <IconButton onTouchTap={linkDelete} tooltip="Delete"><IconDelete/></IconButton>
+        </div>
+     }
     primaryText={name}
     secondaryText={
       <p>
@@ -86,4 +114,4 @@ Link.propTypes = {
   url: PropTypes.string.isRequired
 }
 
-export default Link
+export default withWidth()(Link)

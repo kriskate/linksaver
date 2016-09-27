@@ -12,17 +12,22 @@ import Content from '../containers/Content'
 import Synchronize from '../containers/Synchronize'
 import Footer from '../components/Footer';
 
+import LinkDialog from './LinkDialog'
 import AddLinkFloatingButton from './AddLinkFloatingButton'
+
+import Snackbar from 'material-ui/Snackbar';
+
 
 export class App extends Component {
   render() {
     const {
-      loggedIn, synchronized,
+      loggedIn, synchronized, user,
       drawerDocked, drawerOpen,
       folders,
       width, lastWidth,
-      user,
-    } = this.props;
+      link_dialog,
+      snackbar,
+    } = this.props
 
     let _drawerDocked = width > MEDIUM,
         _drawerOpen = _drawerDocked ? true : drawerOpen
@@ -30,17 +35,23 @@ export class App extends Component {
       loggedIn
       ? synchronized
         ? <div>
-            <AppNavDrawer
-              /*location={location}*/
+            /*2 = title and name textfields should be on same line if screen is large */
+            <LinkDialog {...link_dialog} fullHeightFields={!_drawerDocked} /*2*/ />
+            <AppNavDrawer /*location={location}*/
               user={user} folders={folders}
               docked={_drawerDocked} open={_drawerOpen} />
-            <AddLinkFloatingButton/>
-            <div
-              className="material-animated-simple" /* will only be noticed when resizing the window on desktops */
-              style={{ paddingLeft: !_drawerDocked ? 0 : 256 }} >
+            <AddLinkFloatingButton />
+            <div /*1 = animation will only be noticed when resizing the window width on desktops */
+                className="material-animated-simple" /*1*/
+                style={{ paddingLeft: !_drawerDocked ? 0 : 256 }} >
               <Content current={folders.current} showMenuIconButton={!_drawerDocked} />
               <Footer />
             </div>
+            <Snackbar
+              open={snackbar.open}
+              message={snackbar.message}
+              autoHideDuration={snackbar.duration}
+            />
           </div>
         : <Synchronize />
       : <Landing />
@@ -55,13 +66,14 @@ App.propTypes = {
 
 
 function mapStateToProps(state) {
-  //console.log(state, state.local.user)
   return {
     loggedIn: state.local.loggedIn,
     drawerDocked: state.local.drawerDocked,
     drawerOpen: state.local.drawerOpen,
     synchronized: state.local.synchronized,
     user: state.local.user,
+    snackbar: state.local.snackbar,
+    link_dialog: state.local.link_dialog,
     folders: state.folders,
   };
 }
@@ -72,6 +84,8 @@ function mapDispatchToProps(dispatch) {
   let inc = 1
   setTimeout(function(){ dispatch(actions.logInChange(true)) }, inc)
   setTimeout(function(){ dispatch(actions.synchChange(true))}, inc*2)
+
+  return{}
 }
 
 

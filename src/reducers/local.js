@@ -1,6 +1,8 @@
-import { LOG_IN_CHANGE, TOGGLE_DRAWER_DOCK, TOGGLE_DRAWER_OPEN, SYNCH_CHANGE } from '../constants/ActionTypes';
-import { SMALL, MEDIUM, LARGE } from 'material-ui/utils/withWidth'
-import { UserModel } from '../constants/Models'
+import {
+  SNACKBAR_OPEN, LINK_DIALOG_OPEN, LINK_DIALOG_CLOSE, LINK_DIALOG_CHANGE,
+  TOGGLE_DRAWER_DOCK, TOGGLE_DRAWER_OPEN, LOG_IN_CHANGE, SYNCH_CHANGE } from '../constants/ActionTypes';
+import { VIEW_LIST, VIEW_CARD, SORT_USER, SORT_URL, SORT_DATE_ADDED, SORT_STARS, SORT_DATE_EXPIRE, SORT_ALPHABETICAL } from '../constants/SortAndView'
+import { UserModel, LinkModel } from '../constants/Models'
 
 const initialState = {
   synchronized: false,
@@ -9,6 +11,25 @@ const initialState = {
   user: new UserModel({}),
   autoLogCookie: true,
   drawerOpen: false,
+  viewMode: VIEW_LIST,
+  sortType: SORT_DATE_ADDED,
+  snackbar: { duration: 4000, message: "", open: false },
+  link_dialog: { isSaveActive: false, open: false, edit: false, link: {} },
+}
+
+
+const dialog_linkChangedState = (state, {data, open, edit, isSaveActive}) => {
+  //console.log(isSaveActive, state.link_dialog.isSaveActive)
+  open = open === undefined ? state.link_dialog.open : open
+  edit = edit === undefined ? state.link_dialog.edit : edit
+  isSaveActive = isSaveActive === undefined ? state.link_dialog.isSaveActive : isSaveActive
+  return Object.assign({}, state, {
+    link_dialog: {
+      open, edit, isSaveActive,
+      link: Object.assign(state.link_dialog.link, data || {})
+    }
+  })
+
 }
 
 export default function localReducer (state = initialState, action){
@@ -21,6 +42,23 @@ export default function localReducer (state = initialState, action){
       return Object.assign({}, state, { synchronized: action.payload })
     case LOG_IN_CHANGE:
       return Object.assign({}, state, { loggedIn: action.payload })
+    case SNACKBAR_OPEN:
+      return Object.assign({}, state, { snackbar: Object.assign({}, state.snackbar, action.payload, {open: true}) })
+
+
+
+    case LINK_DIALOG_OPEN:
+    //console.log(action.payload.isNew)
+      return Object.assign({}, state, {link_dialog: {
+        link: action.payload.link, open: true, edit: !action.payload.isNew,
+      }})
+      //return dialog_linkChangedState(state, {open: true, edit: sOedit, data: action.payload })
+    case LINK_DIALOG_CLOSE:
+      return dialog_linkChangedState(state, {open: false})
+    case LINK_DIALOG_CHANGE:
+      return dialog_linkChangedState(state, {isSaveActive: action.payload.isSaveActive})
+
+
     default:
       return state
   }

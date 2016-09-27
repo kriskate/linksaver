@@ -47,7 +47,7 @@ export default class Landing extends Component{
               floatingLabelText="password" />
           </div>
           <RaisedButton label="GO" secondary={true}
-            onClick={(e) => {
+            onTouchTap={(e) => {
               input_user = this.refs.input_user.getValue();
               input_pass = this.refs.input_pass.getValue();
               e.preventDefault()
@@ -61,7 +61,7 @@ export default class Landing extends Component{
         <Paper style={styles.paper2} zDepth={2}>
           <div>OR</div>
           <RaisedButton primary={true} label = "SIGN UP"
-            onClick={()=>{DB.readData()}}
+            onTouchTap={()=>{DB.readData()}}
             />
         </Paper>
       </div>

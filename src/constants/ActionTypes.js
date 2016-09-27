@@ -1,8 +1,14 @@
+export const SNACKBAR_OPEN = "SNACKBAR_OPEN"
+
+export const LINK_DIALOG_CLOSE = "LINK_DIALOG_CLOSE"
+export const LINK_DIALOG_OPEN = "LINK_DIALOG_OPEN"
+export const LINK_DIALOG_CHANGE = "LINK_DIALOG_CHANGE"
+
 export const LINK_ADD = "LINK_ADD"
 export const LINK_DELETE = "LINK_DELETE"
 export const LINK_EDIT = "LINK_EDIT"
 export const LINK_COPYURL = "LINK_COPYURL"
-
+export const LINK_SAVE = "LINK_SAVE"
 
 export const FOLDER_ADD = "FOLDER_ADD"
 export const FOLDER_DELETE = "FOLDER_DELETE"

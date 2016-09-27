@@ -1,9 +1,12 @@
 import React, { PropTypes } from 'react'
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
+import * as actions from '../actions'
 import Link from '../components/Link'
 import LinkModel from '../constants/Models'
 
 // material-ui
+
 import {List} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
@@ -17,11 +20,19 @@ const styles = {
   },
 }
 
-let LinkList = ({ currentF, links }) => (
+let LinkList = ({
+  currentF, links,
+  actions,
+ }) => (
   <List style={styles.list}>
         <Subheader>{currentF.name}</Subheader>
     { links.filter((link) => link.parent.id == currentF.id).map((link, id) =>
-        <Link card={false} key={id} {...link} />
+        <Link card={false} key={id} {...link}
+          linkEdit={ (ev) => { ev.stopPropagation(); ev.preventDefault(); actions.linkEdit(link);} }
+          linkDelete={ () => actions.linkDelete(link) }
+          linkCopyURL={ () => { actions.linkCopyURL(link);
+          actions.snackbar({ message: "Link copied to clipboard!" }); }}
+        />
     )}
   </List>
 )
@@ -38,9 +49,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    /*onTodoClick: (id) => {
-      dispatch(toggleTodo(id))
-    }*/
+    actions: bindActionCreators(actions, dispatch)
   }
 }
 

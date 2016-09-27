@@ -22,3 +22,26 @@ body {
 .material-animated-simple{
   transition: all 100ms;
 }
+
+
+.react-rater {
+  display: inline-block;
+  line-height: normal;
+}
+  .react-rater a {
+    cursor: pointer;
+    color: #ccc;
+  }
+    .react-rater a.will-be-active {
+      color: #FFA000;//amber700
+    }
+    .react-rater a.is-active {
+      color: #FFC107;//amber500
+    }
+    .react-rater a.is-disabled {
+      color: #ccc;
+      cursor: not-allowed;
+    }
+  .react-rater.is-disabled a {
+    cursor: default;
+  }

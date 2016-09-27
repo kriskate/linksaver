@@ -26,26 +26,33 @@ export function FolderModel ({ id=uuid.v4(), name="new folder", subfolders=[], l
   }
 }
 
-export function LinkModel ({
-  id="", name="", url="", pic="", description="",
-  date_added=new Date(), date_expire=new Date(Math.random()),
-  stars=5, archived=false, parent={id:"",name:""}
-}) {
-  return {
-    id ,                        // id
-    name,                       // string
-    url,                        // http string
-    pic,                        // http string
-    description,                // string
-    date_added,                 // Date()
-    // to-do - not random, but new Date() + 5 days
-    date_expire,                // Date()
-    stars,                      // 0 - 5
-    archived,                   // boolean
-    parent,            // actual folder in which this link resides
-  }
+
+
+function newMaxDate (DAYS_UNTIL_EXPIRE=5) {
+  var maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() + DAYS_UNTIL_EXPIRE);
+  maxDate.setHours(0, 0, 0, 0);
+
+  return maxDate
 }
 
+// written with this.prop in order to get typeof hash
+export function LinkModel ({
+  id=uuid.v4(), name="", url="", pic="", description="",
+  date_added=new Date(), date_expire=newMaxDate(),
+  stars=3, archived=false, parent
+}) {
+    this.id = id                      // id
+    this.name = name                  // string
+    this.url = url                    // http string
+    this.pic = pic                    // http string
+    this.description = description    // string
+    this.date_added = date_added      // Date()
+    this.date_expire = date_expire    // Date()
+    this.stars = stars                // 0 - 5
+    this.archived = archived          // boolean
+    this.parent = parent              // actual folder in which this link resides - set in at LinkModel init
+}
 
 let db_struct_example = {
   users: {

@@ -1,10 +1,10 @@
-import { LINK_ADD, LINK_DELETE, FOLDER_ADD, FOLDER_DELETE, FOLDER_SELECTED } from '../constants/ActionTypes';
+import { LINK_SAVE, LINK_DELETE, FOLDER_ADD, FOLDER_DELETE, FOLDER_SELECTED } from '../constants/ActionTypes';
 import { FolderModel, LinkModel } from '../constants/Models'
 import uuid from 'node-uuid'
 
 let initialState = {
-  current: null,
   arr: [],
+  current: null,
 }
 
 /* to-do: these are just tests */
@@ -30,28 +30,38 @@ for(let i = 0; i < min + Math.floor(Math.random()*(max-min)); i++){
     pic: `https://placekitten.com/${r}/${r}`,
     name: "Link name " + String(i),
     description: " Description " + String(i) + ": " + uuid.v4(),
-    parent
+    parent,
   })
   )
 }
 //initialState.arr.find(({id}) => id == "v4-1").links.push("https://www.seedrs.com/invest")
 // end to-do
 
-const returner = (state, ob) => {
-  return Object.assign({}, state, ob)
-}
 
 export default function folders (state = initialState, action){
+  //console.log(action)
   let { arr, current } = state
   switch (action.type) {
     case FOLDER_ADD:
-      return returner( state, {current, arr: [...arr, action.folder]} )
+      return Object.assign({}, state, {current, arr: [...arr, action.folder]} )
     case FOLDER_SELECTED:
-      return returner( state, {arr, current: action.folder} )
-    case LINK_ADD:
-      return returner( state, {arr,
-        current: Object.assign({}, current, { links: [...current.links, action.link] })
-      } )
+      return Object.assign({}, state, {arr, current: action.folder} )
+    case LINK_DELETE:
+      return state
+    break
+    case LINK_SAVE:
+      let nC = JSON.parse(JSON.stringify(state))
+
+      let link = action.link_dialog.link,
+      //    fld = nC.arr.find(fl => fl.id == link.parent.id)
+      fld = nC.current
+      if(action.link_dialog.edit)
+        fld.links[fld.links.findIndex(li => li.id == link.id)] = link
+      else{
+        window.scrollTo(0,0)
+        fld.links.unshift(link)
+      }
+      return nC
     default:
       return state;
   }
