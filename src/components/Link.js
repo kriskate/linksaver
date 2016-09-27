@@ -106,7 +106,7 @@ let Link = ({ width,
         <span style={{}}> { description } </span>
       </p>
     }
-    secondaryTextLines={2}
+    secondaryTextLines={description ? 2 : 1 }
   />
   </div>
 )
