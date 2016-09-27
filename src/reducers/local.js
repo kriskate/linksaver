@@ -56,7 +56,7 @@ export default function localReducer (state = initialState, action){
     case LINK_DIALOG_CLOSE:
       return dialog_linkChangedState(state, {open: false})
     case LINK_DIALOG_CHANGE:
-      return dialog_linkChangedState(state, {isSaveActive: action.payload.isSaveActive})
+      return dialog_linkChangedState(state, {data:action.payload.link, isSaveActive: action.payload.isSaveActive})
 
 
     default:

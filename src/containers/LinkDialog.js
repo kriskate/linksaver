@@ -32,6 +32,9 @@ const
   LABEL_DESC = "description", LABEL_DESC_HINT="leave blank for no description",
   LABEL_RATE = "Rating:",
   LABEL_EXPY_EDIT = "Expires at:", LABEL_EXPY = "This will be the expiry date (5 days from now as default):",
+// errors
+  ERROR_VALIDHTTP = "Must be a valid url",
+  ERROR_REQUIRED = "Required",
 
   styles = {
     url: {  minWidth:20, marginRight:15, },
@@ -74,7 +77,11 @@ function mapDispatchToProps(dispatch){
         switch(e.target.id){
           case ATTR_LINK:
             tempState.url = payload
-            Utils.getURLTitle(payload)
+            // to-do: parse received url to show error handling correctly
+
+            // to-do: separate linkDialog state in a separate reducer
+            // to-do: after separation, add name_blurred and url_blurred, in order to display errors only after the field have beed de-focused
+            tempState.name = Utils.getURLTitle(payload) || tempState.name
           break
           case ATTR_NAME:
             tempState.name = payload
@@ -88,7 +95,7 @@ function mapDispatchToProps(dispatch){
       let isSaveActive = JSON.stringify(tempState) !== JSON.stringify(initState)
       if(!tempState.url || !tempState.name) isSaveActive = false
 
-      dispatch(handleLink_DialogChange({isSaveActive}))
+      dispatch(handleLink_DialogChange({link:tempState,isSaveActive}))
     },
   }
 }
@@ -108,7 +115,7 @@ class LinkDialog extends Component{
 
     const { id, name, url, pic, description, date_added, date_expire, stars, archived, parent } = initState
     if(!tempState) tempState = Object.assign({}, initState)
-
+console.log('url',url)
     const action_buttons = [
       <FlatButton
         label={LABEL_CANCEL}
@@ -133,15 +140,17 @@ class LinkDialog extends Component{
           <TextField style={styles.url} fullWidth={fullHeightFields}
             id={ATTR_LINK} onChange={handleChange}
             floatingLabelText={LABEL_LINK} floatingLabelStyle={styles.errorStyle}
+            errorText={url ? "" : ERROR_REQUIRED + ". " + ERROR_VALIDHTTP }
             defaultValue={url || ""} />
           <TextField style={styles.url} fullWidth={fullHeightFields}
             id={ATTR_NAME} onChange={handleChange}
             floatingLabelText={LABEL_NAME} floatingLabelStyle={styles.floatingLabelFocusStyle}
+            errorText={name ? "" : ERROR_REQUIRED }
             defaultValue={name || ""} /><br/>
 
           <TextField multiLine={true} rows={1} rowsMax={4} fullWidth={true}
             id={ATTR_DESC} onChange={handleChange}
-            floatingLabelText={LABEL_DESC} floatingLabelStyle={styles.floatingLabelFocusStyle}
+            floatingLabelText={LABEL_DESC} floatingLabelStyle={styles.floatingLabelFocusStyle} floatingLabelFixed={true}
             hintText={LABEL_DESC_HINT}
             defaultValue={description || ""}/>
         </div><br/><br/>
