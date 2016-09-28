@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Utils from '../utils/Utils'
+//import Utils from '../utils/Utils'
+import { getURLTitle, isValidURL } from '../utils/Utils'
 
 import { LinkModel } from '../constants/Models'
 import { linkSave, handleLink_DialogClose, handleLink_DialogChange } from '../actions'
@@ -35,6 +36,8 @@ const
 // errors
   ERROR_VALIDHTTP = "Must be a valid url",
   ERROR_REQUIRED = "Required",
+// warnings
+  WARN_TOOMUCHDESCRIPTION = "Warning! the description will be cut at two rows",
 
   styles = {
     url: {  minWidth:20, marginRight:15, },
@@ -46,7 +49,6 @@ const
 
 
 function composeLink_DialogLink(edit){
-  //console.log(tempState)
   // to-do: if editing, clear state.local.link_dialog for a fresh link; else, leave the fields pre-completed
   if(edit) return {}
   return tempState
@@ -62,6 +64,7 @@ function mapDispatchToProps(dispatch){
       tempState = null
     },
     handleChange: (e, payload) => {
+      let changedProp
       if(!e){
         // date
         let activate = tempState.date_expire !== payload
@@ -72,32 +75,43 @@ function mapDispatchToProps(dispatch){
          //console.log('rated',e.rating, e.lastRating)
       } else {
         // material-ui components
-        let cid = e.target.id
-        let activate = tempState[cid] !== payload
+        let cid = e.target.id,
+            activate = tempState[cid] !== payload
         switch(e.target.id){
           case ATTR_LINK:
             tempState.url = payload
+            changedProp = "url"
             // to-do: parse received url to show error handling correctly
-
             // to-do: separate linkDialog state in a separate reducer
-            // to-do: after separation, add name_blurred and url_blurred, in order to display errors only after the field have beed de-focused
-            tempState.name = 'Utils.getURLTitle(payload) || "tempState.name"'
+            // to-do(maybe): after separation, add name_blurred and url_blurred, in order to display errors only after the field have beed de-focused
+            isValidURL(payload) && getURLTitle(payload).then((name) => {
+              if(name){
+                tempState.name = name
+                let isSaveActive = true// to-do: investigate why checkValid() fails
+                dispatch(handleLink_DialogChange({link:{name}, isSaveActive}))
+              }
+            })
           break
           case ATTR_NAME:
             tempState.name = payload
+            changedProp = "name"
           break
           case ATTR_DESC:
             tempState.description = payload
+            changedProp = "description"
           break
         }
       }
 
-      let isSaveActive = JSON.stringify(tempState) !== JSON.stringify(initState)
-      if(!tempState.url || !tempState.name) isSaveActive = false
-
-      dispatch(handleLink_DialogChange({link:tempState,isSaveActive}))
+      let isSaveActive = checkValid()
+      let link = {}; link[changedProp] = payload
+      dispatch(handleLink_DialogChange({link,isSaveActive}))
     },
   }
+}
+
+function checkValid (){
+  return (JSON.stringify(tempState) !== JSON.stringify(initState)) && isValidURL(tempState.url) && (tempState.name)
 }
 function mapStateToProps(state){
   return { currentFolder: state.folders.current }
@@ -115,7 +129,6 @@ class NewLinkDialog extends Component{
 
     const { id, name, url, pic, description, date_added, date_expire, stars, archived, parent } = initState
     if(!tempState) tempState = Object.assign({}, initState)
-console.log('url',url)
     const action_buttons = [
       <FlatButton
         label={LABEL_CANCEL}
@@ -140,13 +153,13 @@ console.log('url',url)
           <TextField style={styles.url} fullWidth={fullHeightFields}
             id={ATTR_LINK} onChange={handleChange}
             floatingLabelText={LABEL_LINK} floatingLabelStyle={styles.errorStyle}
-            errorText={url ? "" : ERROR_REQUIRED + ". " + ERROR_VALIDHTTP }
-            defaultValue={url || ""} />
+            errorText={isValidURL(url) ? "" : ERROR_REQUIRED + ". " + ERROR_VALIDHTTP }
+            value={url || ""} />
           <TextField style={styles.url} fullWidth={fullHeightFields}
             id={ATTR_NAME} onChange={handleChange}
             floatingLabelText={LABEL_NAME} floatingLabelStyle={styles.floatingLabelFocusStyle}
             errorText={name ? "" : ERROR_REQUIRED }
-            defaultValue={name || ""} /><br/>
+            value={name || ""} /><br/>
 
           <TextField multiLine={true} rows={1} rowsMax={4} fullWidth={true}
             id={ATTR_DESC} onChange={handleChange}

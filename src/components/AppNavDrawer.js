@@ -80,6 +80,8 @@ class AppNavDrawer extends Component {
             )}
 
         </SelectableList>
+        <Divider />
+        <NewFolder/>
       </Drawer>
     )
   }

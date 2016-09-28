@@ -34,6 +34,9 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify('development')
     }),
   ],
+  devServer: {
+    headers: {"Access-Control-Allow-Origin":"*"}
+  },
   module: {
     loaders: [
       {
@@ -45,7 +48,7 @@ module.exports = {
       {
         test: /\.scss$/,
         loader: 'style!css!sass'
-      }
+      },
     ]
   }
 };

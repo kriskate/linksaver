@@ -26,7 +26,7 @@ const dialog_linkChangedState = (state, {data, open, edit, isSaveActive}) => {
   return Object.assign({}, state, {
     link_dialog: {
       open, edit, isSaveActive,
-      link: Object.assign(state.link_dialog.link, data || {})
+      link: Object.assign({}, state.link_dialog.link, data || {})
     }
   })
 
@@ -48,11 +48,9 @@ export default function localReducer (state = initialState, action){
 
 
     case LINK_DIALOG_OPEN:
-    //console.log(action.payload.isNew)
       return Object.assign({}, state, {link_dialog: {
         link: action.payload.link, open: true, edit: !action.payload.isNew,
       }})
-      //return dialog_linkChangedState(state, {open: true, edit: sOedit, data: action.payload })
     case LINK_DIALOG_CLOSE:
       return dialog_linkChangedState(state, {open: false})
     case LINK_DIALOG_CHANGE:
