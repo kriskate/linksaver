@@ -12,7 +12,7 @@ import Content from '../containers/Content'
 import Synchronize from '../containers/Synchronize'
 import Footer from '../components/Footer';
 
-import LinkDialog from './LinkDialog'
+import NewLinkDialog from './NewLinkDialog'
 import AddLinkFloatingButton from './AddLinkFloatingButton'
 
 import Snackbar from 'material-ui/Snackbar';
@@ -36,7 +36,7 @@ export class App extends Component {
       ? synchronized
         ? <div>
             /*2 = title and name textfields should be on same line if screen is large */
-            <LinkDialog {...link_dialog} fullHeightFields={!_drawerDocked} /*2*/ />
+            <NewLinkDialog {...link_dialog} fullHeightFields={!_drawerDocked} /*2*/ />
             <AppNavDrawer /*location={location}*/
               user={user} folders={folders}
               docked={_drawerDocked} open={_drawerOpen} />

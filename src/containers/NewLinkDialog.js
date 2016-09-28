@@ -81,7 +81,7 @@ function mapDispatchToProps(dispatch){
 
             // to-do: separate linkDialog state in a separate reducer
             // to-do: after separation, add name_blurred and url_blurred, in order to display errors only after the field have beed de-focused
-            tempState.name = Utils.getURLTitle(payload) || tempState.name
+            tempState.name = 'Utils.getURLTitle(payload) || "tempState.name"'
           break
           case ATTR_NAME:
             tempState.name = payload
@@ -103,7 +103,7 @@ function mapStateToProps(state){
   return { currentFolder: state.folders.current }
 }
 
-class LinkDialog extends Component{
+class NewLinkDialog extends Component{
   constructor(props,context){
     super(props,context)
     //console.log(props,context)
@@ -167,5 +167,5 @@ console.log('url',url)
 }
 
 
-LinkDialog = connect(mapStateToProps, mapDispatchToProps)(LinkDialog)
-export default LinkDialog
+NewLinkDialog = connect(mapStateToProps, mapDispatchToProps)(NewLinkDialog)
+export default NewLinkDialog
