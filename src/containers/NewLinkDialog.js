@@ -82,10 +82,8 @@ function mapDispatchToProps(dispatch){
             activate = tempState[cid] !== payload
         switch(e.target.id){
           case ATTR_LINK:
-          console.log(payload)
             tempState.url = payload
             changedProp = "url"
-            // to-do: parse received url to show error handling correctly
             // to-do: separate linkDialog state in a separate reducer
             // to-do(maybe): after separation, add name_blurred and url_blurred, in order to display errors only after the field have beed de-focused
             if(isValidURL(payload))
