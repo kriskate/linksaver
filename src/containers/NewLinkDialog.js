@@ -13,6 +13,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 import Rater from 'react-rater'
 
@@ -29,7 +30,7 @@ const
   LABEL_CANCEL="Cancel", LABEL_SAVE="Save", LABEL_ADD="Add",
   LABEL_TITLE_EDIT="Edit the current link", LABEL_TITLE="Add a new link",
   LABEL_LINK = "URL (link)",
-  LABEL_NAME = "title",
+  LABEL_NAME = "title", LABEL_NAME_HINT = "If empty, will try to autocomplete",
   LABEL_DESC = "description", LABEL_DESC_HINT="leave blank for no description",
   LABEL_RATE = "Rating:",
   LABEL_EXPY_EDIT = "Expires at:", LABEL_EXPY = "This will be the expiry date (5 days from now as default):",
@@ -66,12 +67,14 @@ function mapDispatchToProps(dispatch){
     handleChange: (e, payload) => {
       let changedProp
       if(!e){
-        // date
+        changedProp = "date"
         let activate = tempState.date_expire !== payload
         tempState.date_expire = payload
       } else if(e && e.rating){
-        // rating component
-        if(e.originalEvent.type === 'click'){}
+        if(e.originalEvent.type === 'click'){
+          changedProp = "rating"
+          payload = e.rating
+        }
          //console.log('rated',e.rating, e.lastRating)
       } else {
         // material-ui components
@@ -79,18 +82,22 @@ function mapDispatchToProps(dispatch){
             activate = tempState[cid] !== payload
         switch(e.target.id){
           case ATTR_LINK:
+          console.log(payload)
             tempState.url = payload
             changedProp = "url"
             // to-do: parse received url to show error handling correctly
             // to-do: separate linkDialog state in a separate reducer
             // to-do(maybe): after separation, add name_blurred and url_blurred, in order to display errors only after the field have beed de-focused
-            isValidURL(payload) && getURLTitle(payload).then((name) => {
-              if(name){
-                tempState.name = name
-                let isSaveActive = true// to-do: investigate why checkValid() fails
-                dispatch(handleLink_DialogChange({link:{name}, isSaveActive}))
-              }
-            })
+            if(isValidURL(payload))
+              tempState.name
+              ? dispatch(handleLink_DialogChange({isSaveActive:true}))
+              : getURLTitle(payload).then((name) => {
+                if(name){
+                  tempState.name = name
+                  let isSaveActive = true// to-do: investigate why checkValid() fails
+                  dispatch(handleLink_DialogChange({link:{name}, isSaveActive}))
+                }
+              })
           break
           case ATTR_NAME:
             tempState.name = payload
@@ -102,7 +109,7 @@ function mapDispatchToProps(dispatch){
           break
         }
       }
-
+      if(!changedProp) return
       let isSaveActive = checkValid()
       let link = {}; link[changedProp] = payload
       dispatch(handleLink_DialogChange({link,isSaveActive}))
@@ -150,30 +157,39 @@ class NewLinkDialog extends Component{
         open={open}
         onRequestClose={() => handleClose(edit)} >
         <div style={styles.add}>
-          <TextField style={styles.url} fullWidth={fullHeightFields}
+          <TextField style={styles.url} fullWidth={true}
             id={ATTR_LINK} onChange={handleChange}
             floatingLabelText={LABEL_LINK} floatingLabelStyle={styles.errorStyle}
             errorText={isValidURL(url) ? "" : ERROR_REQUIRED + ". " + ERROR_VALIDHTTP }
             value={url || ""} />
-          <TextField style={styles.url} fullWidth={fullHeightFields}
+          <TextField style={styles.url} fullWidth={true}
             id={ATTR_NAME} onChange={handleChange}
             floatingLabelText={LABEL_NAME} floatingLabelStyle={styles.floatingLabelFocusStyle}
+            hintText={LABEL_NAME_HINT}
             errorText={name ? "" : ERROR_REQUIRED }
-            value={name || ""} /><br/>
-
-          <TextField multiLine={true} rows={1} rowsMax={4} fullWidth={true}
-            id={ATTR_DESC} onChange={handleChange}
-            floatingLabelText={LABEL_DESC} floatingLabelStyle={styles.floatingLabelFocusStyle} floatingLabelFixed={true}
-            hintText={LABEL_DESC_HINT}
-            defaultValue={description || ""}/>
-        </div><br/><br/>
-        <div>
-          { edit ? LABEL_EXPY_EDIT : LABEL_EXPY }
-          <DatePicker container="inline" mode="portrait" autoOk={true}
-              id={ATTR_EXPY} onChange={handleChange} defaultDate={date_expire} />
-          LABEL_RATE
-          <Rater id={ATTR_RATE} onRate={handleChange} rating={stars}/>
+            value={name || ""} />
         </div>
+<br/>
+            <Card>
+               <CardHeader
+                 title="More options"
+                 actAsExpander={true}
+                 showExpandableButton={true} />
+               <CardText expandable={true}>
+                  <TextField multiLine={true} rows={1} rowsMax={4} fullWidth={true}
+                    id={ATTR_DESC} onChange={handleChange}
+                    floatingLabelText={LABEL_DESC} floatingLabelStyle={styles.floatingLabelFocusStyle} floatingLabelFixed={true}
+                    hintText={LABEL_DESC_HINT}
+                    defaultValue={description || ""}/><br/><br/>
+                <div>
+                  { edit ? LABEL_EXPY_EDIT : LABEL_EXPY }
+                  <DatePicker container="inline" mode="portrait" autoOk={true}
+                      id={ATTR_EXPY} onChange={handleChange} defaultDate={date_expire} />
+                  LABEL_RATE
+                  <Rater id={ATTR_RATE} onRate={handleChange} rating={stars}/>
+                </div>
+               </CardText>
+             </Card>
       </Dialog>
     )
   }
