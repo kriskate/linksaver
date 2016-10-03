@@ -46,11 +46,10 @@ let tempState, initState = null
 
 function mapDispatchToProps(dispatch){
   return{
-    save: () => {
-      dispatch(linkSave({link:tempState}))
+    save: (edit) => {
+      dispatch(linkSave({ edit, link: tempState }))
     },
     handleChange: (e, payload) => {
-      //console.log(e,payload)
       let changedProp
       if(!e){
         changedProp = "date"
@@ -58,10 +57,10 @@ function mapDispatchToProps(dispatch){
         tempState.date_expire = payload
       } else if(e && e.rating){
         if(e.originalEvent.type === 'click'){
-          changedProp = "rating"
           payload = e.rating
-        }
-         //console.log('rated',e.rating, e.lastRating)
+          tempState.rating = payload
+          changedProp = "rating"
+        } else return // else it will continue the stack - the rating component constantly triggers
       } else {
         // material-ui components
         let cid = e.target.id,
@@ -78,7 +77,7 @@ function mapDispatchToProps(dispatch){
               : getURLTitle(payload).then((name) => {
                 if(name){
                   tempState.name = name
-                  let isSaveActive = true// to-do: investigate why checkValid() fails
+                  let isSaveActive = true
                   dispatch(handleLink_DialogChange({link:{name}, isSaveActive}))
                 }
               })
@@ -93,7 +92,7 @@ function mapDispatchToProps(dispatch){
           break
         }
       }
-      //console.log(changedProp,link)
+
       if(!changedProp) return
       let isSaveActive = checkValid()
       let link = {}; link[changedProp] = payload
@@ -113,10 +112,10 @@ function mapStateToProps(state){
 
 
 class NewLink extends Component {
+  reset() { tempState = null }
   render(){
     const { edit, handleChange, currentFolder, save } = this.props
     this.save = save // for calling from parent
-    this.reset = () => tempState = null
     initState = this.props.link
     if(Object.keys(initState).length === 0) return null
 
@@ -152,7 +151,7 @@ class NewLink extends Component {
               <DatePicker container="inline" mode="portrait" autoOk={true}
               id={ATTR_EXPY} onChange={handleChange} defaultDate={date_expire} />
               <div>{LABEL_RATE}</div>
-              <Rater id={ATTR_RATE} onRate={handleChange} rating={stars}/>
+              <Rater id={ATTR_RATE} onRate={handleChange} rating={rating}/>
             </div>
           </CardText>
        </Card>

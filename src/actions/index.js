@@ -11,12 +11,12 @@ export const snackbar = (payload) => ({type: SNACKBAR_OPEN, payload})
 
 
 export const handleLink_DialogOpen = (link, isNew) => ({ type: LINK_DIALOG_OPEN, payload: {link, isNew} })
-export const handleLink_DialogClose = (edit) => ({ type: LINK_DIALOG_CLOSE, edit })
+export const handleLink_DialogClose = ({edit}) => ({ type: LINK_DIALOG_CLOSE, edit })
 export const handleLink_DialogChange = (payload) => ({ type: LINK_DIALOG_CHANGE, payload })
 // linkData {link, edit}
-export const linkSave = (link_dialog) => { console.log('saving', link_dialog); return { type: LINK_SAVE, link_dialog } }
-export const linkDelete = (link) => { console.log('delete'. link); return { type: LINK_DELETE, link} }
-export const linkCopyURL = (link) => { console.log('link copy', link.url); return { type: LINK_COPYURL, link } }
+export const linkSave = (payload) => { return { type: LINK_SAVE, payload }}
+export const linkDelete = (link) => { return { type: LINK_DELETE, link} }
+export const linkCopyURL = (link) => { return { type: LINK_COPYURL, link } }
 
 
 export const folderAdd = (folder) => ({ type: FOLDER_ADD, folder })

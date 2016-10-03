@@ -15,7 +15,7 @@ const
 
 function mapDispatchToProps(dispatch){
   return{
-    handleClose: (edit, save) => {
+    handleClose: (edit) => {
       dispatch(handleLink_DialogClose({edit}))
     },
   }
@@ -23,9 +23,8 @@ function mapDispatchToProps(dispatch){
 
 class NewLinkDialog extends Component{
   handleExit(close, edit, shouldSave){
-    shouldSave && this.refs.newlink.getWrappedInstance().save()
-    this.refs.newlink.getWrappedInstance().reset()
     close(edit)
+    shouldSave && this.refs.newlink.getWrappedInstance().save(edit) && this.refs.newlink.getWrappedInstance().reset()
   }
   render() {
     const { isSaveActive, edit, open, handleClose } = this.props

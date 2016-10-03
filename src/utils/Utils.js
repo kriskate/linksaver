@@ -29,14 +29,6 @@ export const getURLTitle = (externalUrl) => {
   });
 
   return promise
-  /*
-  axios
-    .get(proxyurl)
-    .then(function(result) {
-      // we got it!
-      console.log('res',result)
-    });
-  */
 }
 
 export const getPageHeight = () => {

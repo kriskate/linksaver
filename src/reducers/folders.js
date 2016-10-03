@@ -49,8 +49,7 @@ export default function folders (state = initialState, action){
     case LINK_DELETE:
       let nD = JSON.parse(JSON.stringify(state))
 
-      let linkD = action.link,
-      //    fld = nC.arr.find(fl => fl.id == link.parent.id)
+      let linkD = action.payload.link,
       fldD = nD.current
       fldD.links.splice(fldD.links.findIndex(li => li.id == linkD.id), 1)
 
@@ -59,10 +58,9 @@ export default function folders (state = initialState, action){
     case LINK_SAVE:
       let nC = JSON.parse(JSON.stringify(state))
 
-      let link = action.link_dialog.link,
-      //    fld = nC.arr.find(fl => fl.id == link.parent.id)
+      let link = action.payload.link,
       fld = nC.current
-      if(action.link_dialog.edit)
+      if(action.payload.edit)
         fld.links[fld.links.findIndex(li => li.id == link.id)] = link
       else{
         window.scrollTo(0,0)

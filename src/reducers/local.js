@@ -1,5 +1,5 @@
 import {
-  SNACKBAR_OPEN, LINK_DIALOG_OPEN, LINK_DIALOG_CLOSE, LINK_DIALOG_CHANGE,
+  SNACKBAR_OPEN, LINK_DIALOG_OPEN, LINK_DIALOG_CLOSE, LINK_DIALOG_CHANGE, LINK_SAVE,
   TOGGLE_DRAWER_DOCK, TOGGLE_DRAWER_OPEN, LOG_IN_CHANGE, SYNCH_CHANGE } from '../constants/ActionTypes';
 import { VIEW_LIST, VIEW_CARD, SORT_USER, SORT_URL, SORT_DATE_ADDED, SORT_RATING, SORT_DATE_EXPIRE, SORT_ALPHABETICAL } from '../constants/SortAndView'
 import { UserModel, LinkModel } from '../constants/Models'
@@ -18,14 +18,14 @@ const initialState = {
 }
 
 
-const dialog_linkChangedState = (state, {data, open, edit, isSaveActive}) => {
+const dialog_linkChangedState = (state, {data, open, edit, isSaveActive, removeData}) => {
   open = open === undefined ? state.link_dialog.open : open
   edit = edit === undefined ? state.link_dialog.edit : edit
   isSaveActive = isSaveActive === undefined ? state.link_dialog.isSaveActive : isSaveActive
   return Object.assign({}, state, {
     link_dialog: {
       open, edit, isSaveActive,
-      link: Object.assign({}, state.link_dialog.link, data || {})
+      link: removeData ? {} : Object.assign({}, state.link_dialog.link, data || {})
     }
   })
 
@@ -51,11 +51,11 @@ export default function localReducer (state = initialState, action){
         link: action.payload.link, open: true, edit: !action.payload.isNew,
       }})
     case LINK_DIALOG_CLOSE:
-    // to-do: pick action.edit and play with it
-      return dialog_linkChangedState(state, {open: false})
+      return dialog_linkChangedState(state, {open: false, edit: action.edit, removeData:action.edit })
     case LINK_DIALOG_CHANGE:
       return dialog_linkChangedState(state, {data:action.payload.link, isSaveActive: action.payload.isSaveActive})
-
+    case LINK_SAVE:
+      return dialog_linkChangedState(state, {removeData:true})
 
     default:
       return state
