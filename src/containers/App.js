@@ -27,7 +27,7 @@ export class App extends Component {
       folders,
       width, lastWidth,
       link_dialog,
-      snackbar,
+      snackbar, snackbarClose,
     } = this.props
 
     let _drawerDocked = width > MEDIUM,
@@ -56,6 +56,7 @@ export class App extends Component {
               open={snackbar.open}
               message={snackbar.message}
               autoHideDuration={snackbar.duration}
+              onRequestClose={snackbarClose}
             />
           </div>
         : <Synchronize />
@@ -90,7 +91,9 @@ function mapDispatchToProps(dispatch) {
   setTimeout(function(){ dispatch(actions.logInChange(true)) }, inc)
   setTimeout(function(){ dispatch(actions.synchChange(true))}, inc*2)
 
-  return{}
+  return{
+    snackbarClose: (reason) => dispatch(actions.snackbar({open:false})),
+  }
 }
 
 

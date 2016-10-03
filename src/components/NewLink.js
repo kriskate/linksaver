@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { linkSave, handleLink_DialogChange } from '../actions'
+import { linkSave, handleLink_DialogChange, snackbar } from '../actions'
 
 import Rater from 'react-rater'
 
@@ -48,6 +48,7 @@ function mapDispatchToProps(dispatch){
   return{
     save: (edit) => {
       dispatch(linkSave({ edit, link: tempState }))
+      dispatch(snackbar({ message: "Link saved!" }))
     },
     handleChange: (e, payload) => {
       let changedProp

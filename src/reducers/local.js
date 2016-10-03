@@ -42,7 +42,8 @@ export default function localReducer (state = initialState, action){
     case LOG_IN_CHANGE:
       return Object.assign({}, state, { loggedIn: action.payload })
     case SNACKBAR_OPEN:
-      return Object.assign({}, state, { snackbar: Object.assign({}, state.snackbar, action.payload, {open: true}) })
+      return Object.assign({}, state, { snackbar: Object.assign({}, state.snackbar, action.payload, {open: action.payload.open == false ? false : true}) })
+
 
 
 

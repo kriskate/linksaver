@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
-import { linkDelete, linkCopyURL, handleLink_DialogOpen } from '../actions'
+import { linkDelete, linkCopyURL, handleLink_DialogOpen, snackbar } from '../actions'
 import Link from '../components/Link'
 import LinkModel from '../constants/Models'
 
@@ -29,7 +29,8 @@ let LinkList = ({
     { links.filter((link) => link.parent.id == currentF.id).map((link, id) =>
         <Link card={false} key={id} {...link}
           linkEdit={ (ev) => { ev.stopPropagation(); ev.preventDefault(); actions.handleLink_DialogOpen(link);} }
-          linkDelete={ () => actions.linkDelete(link) }
+          linkDelete={ () => { actions.linkDelete(link);
+          actions.snackbar({ message: "Link deleted!" }); }}
           linkCopyURL={ () => { actions.linkCopyURL(link);
           actions.snackbar({ message: "Link copied to clipboard!" }); }}
         />
@@ -49,7 +50,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators({handleLink_DialogOpen, linkDelete, linkCopyURL}, dispatch)
+    actions: bindActionCreators({handleLink_DialogOpen, linkDelete, linkCopyURL, snackbar}, dispatch)
   }
 }
 
