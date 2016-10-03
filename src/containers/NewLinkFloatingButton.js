@@ -14,7 +14,7 @@ import { linkAdd } from '../actions'
 const styles = {
   floatingButton: { position: "fixed", right: 20, bottom: 20, zIndex: 3 },
 }
-class AddLinkFloatingButton extends Component {
+class NewLinkFloatingButton extends Component {
   render(){
     const { openLink_Dialog, getLink, } = this.props
 
@@ -42,6 +42,5 @@ function mapDispatchToProps(dispatch){
   }
 }
 
-AddLinkFloatingButton = connect(mapStateToProps, mapDispatchToProps)(AddLinkFloatingButton)
 
-export default AddLinkFloatingButton
+export default connect(mapStateToProps, mapDispatchToProps)(NewLinkFloatingButton)
