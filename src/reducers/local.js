@@ -19,7 +19,6 @@ const initialState = {
 
 
 const dialog_linkChangedState = (state, {data, open, edit, isSaveActive}) => {
-  //console.log(isSaveActive, state.link_dialog.isSaveActive)
   open = open === undefined ? state.link_dialog.open : open
   edit = edit === undefined ? state.link_dialog.edit : edit
   isSaveActive = isSaveActive === undefined ? state.link_dialog.isSaveActive : isSaveActive
@@ -52,6 +51,7 @@ export default function localReducer (state = initialState, action){
         link: action.payload.link, open: true, edit: !action.payload.isNew,
       }})
     case LINK_DIALOG_CLOSE:
+    // to-do: pick action.edit and play with it
       return dialog_linkChangedState(state, {open: false})
     case LINK_DIALOG_CHANGE:
       return dialog_linkChangedState(state, {data:action.payload.link, isSaveActive: action.payload.isSaveActive})

@@ -38,7 +38,7 @@ const iconButtonElement = (
   <IconButton
     touch={true}
     tooltip="more"
-    tooltipPosition="bottom-left"
+    tooltipPosition="top-left"
   >
     <MoreVertIcon color={grey400} />
   </IconButton>
@@ -82,7 +82,8 @@ let Link = ({ width,
   </Card>
   :
   <div className="material-animated">
-   <ListItem href={url} target="_blank"
+   <ListItem
+   onTouchTap={() => window.open(url)}
     leftAvatar={<Avatar src={pic} />}
     rightIconButton={ width <= SMALL ?
         <IconMenu iconButtonElement={iconButtonElement}

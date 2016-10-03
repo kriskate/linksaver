@@ -47,7 +47,14 @@ export default function folders (state = initialState, action){
     case FOLDER_SELECTED:
       return Object.assign({}, state, {arr, current: action.folder} )
     case LINK_DELETE:
-      return state
+      let nD = JSON.parse(JSON.stringify(state))
+
+      let linkD = action.link,
+      //    fld = nC.arr.find(fl => fl.id == link.parent.id)
+      fldD = nD.current
+      fldD.links.splice(fldD.links.findIndex(li => li.id == linkD.id), 1)
+
+      return nD
     break
     case LINK_SAVE:
       let nC = JSON.parse(JSON.stringify(state))
