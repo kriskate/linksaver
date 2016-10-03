@@ -11,7 +11,7 @@ export const snackbar = (payload) => ({type: SNACKBAR_OPEN, payload})
 
 
 export const handleLink_DialogOpen = (link, isNew) => ({ type: LINK_DIALOG_OPEN, payload: {link, isNew} })
-export const handleLink_DialogClose = (save) => ({ type: LINK_DIALOG_CLOSE, save })
+export const handleLink_DialogClose = (edit) => ({ type: LINK_DIALOG_CLOSE, edit })
 export const handleLink_DialogChange = (payload) => ({ type: LINK_DIALOG_CHANGE, payload })
 // linkData {link, edit}
 export const linkSave = (link_dialog) => { console.log('saving', link_dialog); return { type: LINK_SAVE, link_dialog } }

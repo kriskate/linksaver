@@ -12,8 +12,9 @@ import Content from '../containers/Content'
 import Synchronize from '../containers/Synchronize'
 import Footer from '../components/Footer';
 
+import NewLinkPage from './NewLinkPage'
 import NewLinkDialog from './NewLinkDialog'
-import AddLinkFloatingButton from './AddLinkFloatingButton'
+import NewLinkFloatingButton from './NewLinkFloatingButton'
 
 import Snackbar from 'material-ui/Snackbar';
 
@@ -35,12 +36,15 @@ export class App extends Component {
       loggedIn
       ? synchronized
         ? <div>
-            /*2 = title and name textfields should be on same line if screen is large */
-            <NewLinkDialog {...link_dialog} fullHeightFields={!_drawerDocked} /*2*/ />
+            {
+              (_drawerDocked
+              ? <NewLinkDialog {...link_dialog} />
+              : <NewLinkPage {...link_dialog} />)
+            }
             <AppNavDrawer /*location={location}*/
               user={user} folders={folders}
               docked={_drawerDocked} open={_drawerOpen} />
-            <AddLinkFloatingButton />
+            {link_dialog.open ? null : <NewLinkFloatingButton />}
             <div /*1 = animation will only be noticed when resizing the window width on desktops */
                 className="material-animated-simple" /*1*/
                 style={{ paddingLeft: !_drawerDocked ? 0 : 256 }} >
