@@ -32,6 +32,7 @@ export class App extends Component {
 
     let _drawerDocked = width > MEDIUM,
         _drawerOpen = _drawerDocked ? true : drawerOpen
+
     return (
       loggedIn
       ? synchronized

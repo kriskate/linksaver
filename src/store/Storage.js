@@ -45,7 +45,7 @@ export default class Storage {
                   description: "no1 search engine",
                   date_added: "12/12/2012 12:12:12",
                   date_expire: "28/08/2016 16:00:00",
-                  stars: 4,
+                  rating: 4,
                   parent: { id: 123, name: "Work" }
                 }
               ]

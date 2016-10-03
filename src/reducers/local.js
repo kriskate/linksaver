@@ -1,7 +1,7 @@
 import {
   SNACKBAR_OPEN, LINK_DIALOG_OPEN, LINK_DIALOG_CLOSE, LINK_DIALOG_CHANGE,
   TOGGLE_DRAWER_DOCK, TOGGLE_DRAWER_OPEN, LOG_IN_CHANGE, SYNCH_CHANGE } from '../constants/ActionTypes';
-import { VIEW_LIST, VIEW_CARD, SORT_USER, SORT_URL, SORT_DATE_ADDED, SORT_STARS, SORT_DATE_EXPIRE, SORT_ALPHABETICAL } from '../constants/SortAndView'
+import { VIEW_LIST, VIEW_CARD, SORT_USER, SORT_URL, SORT_DATE_ADDED, SORT_RATING, SORT_DATE_EXPIRE, SORT_ALPHABETICAL } from '../constants/SortAndView'
 import { UserModel, LinkModel } from '../constants/Models'
 
 const initialState = {

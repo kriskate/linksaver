@@ -40,7 +40,7 @@ function newMaxDate (DAYS_UNTIL_EXPIRE=5) {
 export function LinkModel ({
   id=uuid.v4(), name="", url="", pic="", description="",
   date_added=new Date(), date_expire=newMaxDate(),
-  stars=3, archived=false, parent
+  rating=3, archived=false, parent
 }) {
     this.id = id                      // id
     this.name = name                  // string
@@ -49,7 +49,7 @@ export function LinkModel ({
     this.description = description    // string
     this.date_added = date_added      // Date()
     this.date_expire = date_expire    // Date()
-    this.stars = stars                // 0 - 5
+    this.rating = rating                // 0 - 5
     this.archived = archived          // boolean
     this.parent = parent              // actual folder in which this link resides - set in at LinkModel init
 }

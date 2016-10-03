@@ -31,7 +31,7 @@ class NewLinkFloatingButton extends Component {
 function mapStateToProps(state){
   return{
     getLink: () => {
-      let toR = state.local.link_dialog.link instanceof LinkModel ? state.local.link_dialog : new LinkModel({parent: {id: state.folders.current.id, name: state.folders.current.name}})
+      let toR = state.local.link_dialog.link && state.local.link_dialog.link.id ? state.local.link_dialog.link : new LinkModel({parent: {id: state.folders.current.id, name: state.folders.current.name}})
       return toR
     }
   }

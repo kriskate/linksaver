@@ -47,7 +47,7 @@ let tempState, initState = null
 function mapDispatchToProps(dispatch){
   return{
     save: () => {
-      dispatch(linkSave(tempState))
+      dispatch(linkSave({link:tempState}))
     },
     handleChange: (e, payload) => {
       //console.log(e,payload)
@@ -120,7 +120,7 @@ class NewLink extends Component {
     initState = this.props.link
     if(Object.keys(initState).length === 0) return null
 
-    const { id, name, url, pic, description, date_added, date_expire, stars, archived, parent } = initState
+    const { id, name, url, pic, description, date_added, date_expire, rating, archived, parent } = initState
     if(!tempState) tempState = Object.assign({}, initState)
 
 
