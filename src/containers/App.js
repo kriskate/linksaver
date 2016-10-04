@@ -57,7 +57,7 @@ export class App extends Component {
               <Content current={folders.current} showMenuIconButton={!_drawerDocked} />
               <Footer />
             </div>
-            {link_dialog.open ? null : <NewLinkFloatingButton />}
+              <NewLinkFloatingButton hidden={link_dialog.open} />}
             <Snackbar
               open={snackbar.open}
               message={snackbar.message}
