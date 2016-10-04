@@ -13,17 +13,15 @@ import ContentLink from 'material-ui/svg-icons/content/link';
 import ContentFolder from 'material-ui/svg-icons/file/folder';
 import { linkAdd } from '../actions'
 
-const transition = "all 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms",
-      transitionLeft = "left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms",
-      hideButtons = { right: "-100%", opacity: 0 }
+const hideButtons = { right: "-100%", opacity: 0 }
 
 const padding = 20, separator = 90
 const styles = {
   main: {/* position:"absolute", width:"100%",height:"100%", top:0, left: 0, */zIndex:1 },
-  add: { position:"fixed", right: padding, bottom: padding, transition, },
-  folder: { position:"fixed", right: padding, bottom: separator, transition, },
-  link: { position:"fixed", right: padding, bottom: padding, transition, },
-  cover: { position:"fixed", top:0, left: 0, width:"100%", height: "100%", backgroundColor:"rgba(0, 0, 0, 0.541176)", transition: transitionLeft }
+  add: { position:"fixed", right: padding, bottom: padding, },
+  folder: { position:"fixed", right: padding, bottom: separator, },
+  link: { position:"fixed", right: padding, bottom: padding, },
+  cover: { position:"fixed", top:0, left: 0, width:"100%", height: "100%", backgroundColor:"rgba(0, 0, 0, 0.541176)", }
 }
 class NewLinkFloatingButton extends Component {
   render(){
@@ -33,15 +31,17 @@ class NewLinkFloatingButton extends Component {
 
     return(
       <div style={styles.main}>
-        <div onTouchTap={toggleOpen} style={Object.assign({}, styles.cover, open ? {} : { left: "-100%" })} />
-        <FloatingActionButton style={Object.assign({}, styles.add, !open ? {} : hideButtons )}
-          onTouchTap={toggleOpen}>
+        <div onTouchTap={toggleOpen} className="material-animated-skip-left" style={Object.assign({}, styles.cover, open ? {} : { left: "-100%" })} />
+        <FloatingActionButton className="material-animated" onTouchTap={toggleOpen}
+          style={Object.assign({}, styles.add, !open ? {} : hideButtons )}>
           <ContentAdd /></FloatingActionButton>
-        <FloatingActionButton style={Object.assign({}, styles.link, open ? {} : hideButtons )}
-          backgroundColor={THEME3} onTouchTap={() => openLink_Dialog({link: getLink()})}>
+        <FloatingActionButton className="material-animated" onTouchTap={() => openLink_Dialog({link: getLink()})}
+          style={Object.assign({}, styles.link, open ? {} : hideButtons )}
+          backgroundColor={THEME3}>
           <ContentLink /></FloatingActionButton>
-        <FloatingActionButton style={Object.assign({}, styles.folder, open ? {} : hideButtons )}
-          backgroundColor={THEME2} onTouchTap={() => openLink_Dialog({folder: getFolder()})}>
+        <FloatingActionButton className="material-animated" onTouchTap={() => openLink_Dialog({folder: getFolder()})}
+          style={Object.assign({}, styles.folder, open ? {} : hideButtons )}
+          backgroundColor={THEME2}>
           <ContentFolder /></FloatingActionButton>
       </div>
     )
