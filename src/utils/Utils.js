@@ -1,10 +1,31 @@
-//import axios from "axios"
+import {blue500, blue700, pink500, green500} from 'material-ui/styles/colors'
 
-//const Utils = {}
 
 export const setMobileChromeThemeColor = (hex="#1976D2") => {
   // to-do: integrate into folder changing
   document.querySelectorAll('[name="theme-color"]')[0].setAttribute("content",hex);
+}
+
+export const THEME1 = blue500
+export const THEME2 = pink500
+export const THEME3 = green500
+
+export const changeChromeThemeColor = (color) => {
+  if(!color) color = THEME1
+  document.querySelectorAll('[name="theme-color"]')[0].setAttribute("content", color)
+}
+
+let originalBodyOverflow,
+    body = document.getElementsByTagName('body')[0]
+export const lockScrolling = (lock) => {
+  lock = lock === undefined || lock === true ? true : false
+
+  if(lock){
+    originalBodyOverflow = body.style.overflow;
+    body.style.overflow = 'hidden';
+  }else{
+    body.style.overflow = '';
+  }
 }
 
 export const getURLTitle = (externalUrl) => {

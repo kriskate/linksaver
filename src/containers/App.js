@@ -19,6 +19,12 @@ import NewLinkFloatingButton from './NewLinkFloatingButton'
 import Snackbar from 'material-ui/Snackbar';
 
 
+const styles = {
+  contentHolder:{
+    //WebkitOverflowScrolling: 'touch',
+  }
+}
+
 export class App extends Component {
   render() {
     const {
@@ -45,13 +51,13 @@ export class App extends Component {
             <AppNavDrawer /*location={location}*/
               user={user} folders={folders}
               docked={_drawerDocked} open={_drawerOpen} />
-            {link_dialog.open ? null : <NewLinkFloatingButton />}
             <div /*1 = animation will only be noticed when resizing the window width on desktops */
                 className="material-animated-simple" /*1*/
-                style={{ paddingLeft: !_drawerDocked ? 0 : 256 }} >
+                style={Object.assign(styles.contentHolder, { paddingLeft: !_drawerDocked ? 0 : 256 })} >
               <Content current={folders.current} showMenuIconButton={!_drawerDocked} />
               <Footer />
             </div>
+            {link_dialog.open ? null : <NewLinkFloatingButton />}
             <Snackbar
               open={snackbar.open}
               message={snackbar.message}

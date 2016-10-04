@@ -13,7 +13,7 @@ import MenuItem from 'material-ui/MenuItem';
 import NewFolder from './NewFolder'
 
 import {spacing, typography, zIndex} from 'material-ui/styles';
-import {cyan500,grey900} from 'material-ui/styles/colors';
+import {cyan500,grey900,blue500} from 'material-ui/styles/colors';
 import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit'
 import IconButton from 'material-ui/IconButton'
 
@@ -33,6 +33,9 @@ const styles = {
     paddingLeft: spacing.desktopGutterLess,
     fontSize: 16,
   },
+  subheader: {
+    color: blue500,
+  },
 };
 
   const editBtn = (
@@ -45,11 +48,10 @@ class AppNavDrawer extends Component {
   render() {
     const { folders, location, docked,
             drawerNav, drawerChangeList,
-            open, style, user,
+            open, user,
     } = this.props;
     return (
       <Drawer
-        style={style}
         docked={docked}
         open={open}
         onRequestChange={drawerNav}
@@ -69,12 +71,12 @@ class AppNavDrawer extends Component {
           value={folders.current}
           onChange={drawerChangeList}
         >
-          <Subheader>GO-TOs</Subheader>
+          <Subheader style={styles.subheader}>GO-TOs</Subheader>
             {folders.arr.filter(folder => folder.isGoto).map((folder) =>
               <ListItem key={folder.id} primaryText={folder.name} value={folder} />
             )}
           <Divider />
-          <Subheader>REGULARs</Subheader>
+          <Subheader style={styles.subheader}>REGULARs</Subheader>
             {folders.arr.filter(folder => !folder.isGoto).map((folder) =>
               <ListItem key={folder.id} primaryText={folder.name} value={folder} />
             )}

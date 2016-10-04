@@ -39,7 +39,6 @@ for(let i = 0; i < min + Math.floor(Math.random()*(max-min)); i++){
 
 
 export default function folders (state = initialState, action){
-  //console.log(action)
   let { arr, current } = state
   switch (action.type) {
     case FOLDER_ADD:
