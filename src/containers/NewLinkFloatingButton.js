@@ -52,7 +52,7 @@ function mapStateToProps(state){
   return{
     open: state.local.addOpen,
     getLink: () => {
-      let toR = Object.keys(state.local.link_dialog.link).length > 0 ? state.local.link_dialog.link : new LinkModel({parent: {id: state.folders.current.id, name: state.folders.current.name}})
+      let toR = Object.keys(state.local.link_dialog.link).length > 0 ? state.local.link_dialog.link : new LinkModel({})
       return toR
     },
     getFolder: () => {

@@ -1,12 +1,11 @@
 import {
-  SNACKBAR_OPEN, LINK_DIALOG_OPEN, LINK_DIALOG_CLOSE, LINK_DIALOG_CHANGE, LINK_SAVE,
-  TOGGLE_DRAWER_DOCK, TOGGLE_DRAWER_OPEN, TOGGLE_ADD_OPEN, LOG_IN_CHANGE, SYNCH_CHANGE } from '../constants/ActionTypes';
+  ASSIGN_DEFAULTS, SNACKBAR_OPEN, LINK_DIALOG_OPEN, LINK_DIALOG_CLOSE, LINK_DIALOG_CHANGE, LINK_SAVE, FOLDER_SAVE, TOGGLE_DRAWER_DOCK, TOGGLE_DRAWER_OPEN, TOGGLE_ADD_OPEN, LOG_IN_CHANGE, SYNCH_CHANGE } from '../constants/ActionTypes';
 import { VIEW_LIST, VIEW_CARD, SORT_USER, SORT_URL, SORT_DATE_ADDED, SORT_RATING, SORT_DATE_EXPIRE, SORT_ALPHABETICAL } from '../constants/SortAndView'
-import { UserModel, LinkModel } from '../constants/Models'
+import { UserModel, LinkModel, FolderModel } from '../constants/Models'
 
 const initialState = {
-  synchronized: false,
-  loggedIn: false,
+  synchronized: true,
+  loggedIn: true,
   offline: false,
   user: new UserModel({}),
   autoLogCookie: true,
@@ -21,22 +20,24 @@ const initialState = {
 }
 
 
-const dialog_linkChangedState = (state, {link, folder, open, edit, isSaveActive, removeDataL, removeDataF}) => {
+const dialog_linkChangedState = (state, {link, folder, open, edit, isSaveActive, removeDataL, removeDataF, type}, defaults) => {
   open = open === undefined ? state.link_dialog.open : open
   edit = edit === undefined ? state.link_dialog.edit : edit
   isSaveActive = isSaveActive === undefined ? state.link_dialog.isSaveActive : isSaveActive
+  //console.log('wtf1', state.link_dialog.folder,folder, folder || "AAA")
+  //console.log('wtf', Object.assign({}, state.link_dialog.folder, folder || {}))
   return Object.assign({}, state, {
     link_dialog: {
       open, edit, isSaveActive,
       link: removeDataL ? {} : Object.assign({}, state.link_dialog.link, link || {}),
       folder: removeDataF ? {} : Object.assign({}, state.link_dialog.folder, folder || {}),
+      type: type || state.link_dialog.type,
     }
   })
 
 }
 
 export default function localReducer (state = initialState, action){
-  console.log(action)
   switch (action.type) {
     case TOGGLE_DRAWER_DOCK:
       return Object.assign({}, state, { drawerDocked: !state.drawerDocked })
@@ -51,20 +52,21 @@ export default function localReducer (state = initialState, action){
     case TOGGLE_ADD_OPEN:
       return Object.assign({}, state, { addOpen: action.payload === false ? false : !state.addOpen })
 
-
+    case ASSIGN_DEFAULTS:
+      return dialog_linkChangedState(state, action.payload)
 
     case LINK_DIALOG_OPEN:
-      return Object.assign({}, state, {link_dialog: {
-        link: action.payload.link, folder: action.payload.folder, open: true, edit: !action.payload.isNew,
-      }})
+      let type = action.payload.link ? "link" : "folder"
+      return dialog_linkChangedState(state, Object.assign({}, action.payload, { link: action.payload.link, folder: action.payload.folder, open: true, edit: !action.payload.isNew, type}))
     case LINK_DIALOG_CLOSE:
-      let removeDataL = action.link ? action.edit : false
-      let removeDataF = action.folder ? action.edit : false
-      return dialog_linkChangedState(state, {open: false, edit: action.edit, removeDataL, removeDataF })
+      let removeData = action.payload.type == "link" ? action.payload.edit : false
+      return dialog_linkChangedState(state, {open: false, edit: action.payload.edit, removeDataL: removeData })
     case LINK_DIALOG_CHANGE:
       return dialog_linkChangedState(state, {link:action.payload.link, folder:action.payload.folder, isSaveActive: action.payload.isSaveActive})
     case LINK_SAVE:
-      return dialog_linkChangedState(state, {removeDataL: action.link, removeDataF: action.folder})
+      return dialog_linkChangedState(state, {removeDataL:true})
+    case FOLDER_SAVE:
+      return dialog_linkChangedState(state, {folder: new FolderModel({})})
 
     default:
       return state

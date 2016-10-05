@@ -96,9 +96,9 @@ function mapDispatchToProps(dispatch){
 
       if(!changedProp) return
       let isSaveActive = checkValid()
+
       let link = {}; link[changedProp] = payload
       dispatch(handleLink_DialogChange({link,isSaveActive}))
-      //console.log(tempState)
     },
   }
 }
@@ -113,7 +113,7 @@ function mapStateToProps(state){
 
 
 class NewLink extends Component {
-  reset() { tempState = null }
+  reset() { console.log('reset');tempState = null }
   render(){
     const { edit, handleChange, currentFolder, save } = this.props
     this.save = save // for calling from parent

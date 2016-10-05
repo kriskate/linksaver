@@ -12,6 +12,8 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import NewFolder from './NewFolder'
 
+import { FolderModel } from '../constants/Models'
+
 import {spacing, typography, zIndex} from 'material-ui/styles';
 import {cyan500,grey900,blue500} from 'material-ui/styles/colors';
 import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit'
@@ -49,6 +51,7 @@ class AppNavDrawer extends Component {
     const { folders, location, docked,
             drawerNav, drawerChangeList,
             open, user,
+            link_dialog,
     } = this.props;
     return (
       <Drawer
@@ -83,12 +86,17 @@ class AppNavDrawer extends Component {
 
         </SelectableList>
         <Divider />
-        <NewFolder/>
+        <NewFolder folder={link_dialog.folder} quick={true}/>
       </Drawer>
     )
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    link_dialog: state.local.link_dialog,
+  }
+}
 const mapDispatchToProps = (dispatch) => {
   return {
     /* triggered when black overlay is clicked */
@@ -101,6 +109,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-AppNavDrawer = connect(null, mapDispatchToProps)(AppNavDrawer);
+AppNavDrawer = connect(mapStateToProps, mapDispatchToProps)(AppNavDrawer);
 
 export default AppNavDrawer;
