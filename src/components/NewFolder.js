@@ -101,8 +101,7 @@ class NewFolder extends Component{
 
 
     return(
-      <div style={styles.main}>
-      <form onSubmit={(ev) => {ev.preventDefault(); save(edit, !quick)}}>
+      <form style={styles.main} onSubmit={(ev) => {ev.preventDefault(); save(edit, !quick)}}>
         <TextField fullWidth={true} id={ATTR_NAME}
           onChange={handleChange}
           hintText={!quick ? LABEL_NAME : LABEL_TITLE_QUICKADD}
@@ -114,7 +113,7 @@ class NewFolder extends Component{
           <Toggle id={ATTR_GOTO} onToggle={handleChange} label={LABEL_ISGOTO}
                   style={styles.checkbox} toggled={isGoto} />
           <Toggle id={ATTR_SUBFOLDER} onToggle={handleChange} label={LABEL_SUBFOLDER + currentFolder.name}
-                  style={styles.checkbox} toggled={isGoto ? false : isSubFolder} disabled={isGoto} />
+                  style={styles.checkbox} toggled={isGoto ? false : isSubFolder} disabled={isGoto || edit} />
         </div>
         }
 
@@ -125,7 +124,7 @@ class NewFolder extends Component{
           </div>
           : <FlatButton label={LABEL_ADD} primary={true} icon={<AddIcon />} style={styles.addButton} onTouchTap={() => save(edit)}/>}
       </form>
-      </div>)
+    )
   }
 }
 
