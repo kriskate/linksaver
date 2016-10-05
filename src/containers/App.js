@@ -7,6 +7,8 @@ import Landing from './Landing';
 
 import withWidth, {MEDIUM, LARGE} from 'material-ui/utils/withWidth';
 
+import { LinkModel, FolderModel } from '../constants/Models'
+
 import AppNavDrawer from '../components/AppNavDrawer'
 import Content from '../containers/Content'
 import Synchronize from '../containers/Synchronize'
@@ -18,7 +20,7 @@ import NewLinkFloatingButton from './NewLinkFloatingButton'
 
 import Snackbar from 'material-ui/Snackbar';
 
-
+let defaultsAssigned
 export class App extends Component {
   render() {
     const {
@@ -28,11 +30,20 @@ export class App extends Component {
       width, lastWidth,
       link_dialog,
       snackbar, snackbarClose,
+      assignDefaultModels,
     } = this.props
 
     let _drawerDocked = width > MEDIUM,
         _drawerOpen = _drawerDocked ? true : drawerOpen
 
+    // HACK - calling this here because we need state.folders.current
+    if(!defaultsAssigned){
+      assignDefaultModels({
+      //  link: new LinkModel({parent:folders.current}),
+        folder: new FolderModel({})
+      })
+      defaultsAssigned = true
+    }
     return (
       loggedIn
       ? synchronized
@@ -92,6 +103,7 @@ function mapDispatchToProps(dispatch) {
   setTimeout(function(){ dispatch(actions.synchChange(true))}, inc*2)
 
   return{
+    assignDefaultModels: ({link, folder}) => dispatch(actions.completeDefaults({link, folder})),
     snackbarClose: (reason) => dispatch(actions.snackbar({open:false})),
   }
 }

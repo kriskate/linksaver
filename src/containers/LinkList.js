@@ -28,8 +28,8 @@ let LinkList = ({
         <Subheader>{currentF.name}</Subheader>
     { links.filter((link) => link.parent.id == currentF.id).map((link, id) =>
         <Link card={false} key={id} {...link}
-          linkEdit={ (ev) => { ev.stopPropagation(); ev.preventDefault(); actions.handleLink_DialogOpen(link);} }
-          linkDelete={ () => { actions.linkDelete(link);
+          linkEdit={ (ev) => { ev.stopPropagation(); ev.preventDefault(); actions.handleLink_DialogOpen({link});} }
+          linkDelete={ () => { actions.linkDelete({link});
           actions.snackbar({ message: "Link deleted!" }); }}
           linkCopyURL={ () => { actions.linkCopyURL(link);
           actions.snackbar({ message: "Link copied to clipboard!" }); }}

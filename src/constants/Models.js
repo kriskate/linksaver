@@ -15,7 +15,7 @@ export function UserModel ({ id, username, pass="", folders=[], pic, email="" })
   }
 }
 
-export function FolderModel ({ id=uuid.v4(), name="new folder", subfolders=[], links=[], shared=[], isGoto=false }) {
+export function FolderModel ({ id=uuid.v4(), name="", subfolders=[], links=[], shared=[], isGoto=false }) {
   return {
     id,                // id
     name,              // string

@@ -1,4 +1,4 @@
-import { LINK_SAVE, LINK_DELETE, FOLDER_ADD, FOLDER_DELETE, FOLDER_SELECTED } from '../constants/ActionTypes';
+import { LINK_SAVE, LINK_DELETE, FOLDER_SAVE, FOLDER_DELETE, FOLDER_SELECTED } from '../constants/ActionTypes';
 import { FolderModel, LinkModel } from '../constants/Models'
 import uuid from 'node-uuid'
 
@@ -41,8 +41,8 @@ for(let i = 0; i < min + Math.floor(Math.random()*(max-min)); i++){
 export default function folders (state = initialState, action){
   let { arr, current } = state
   switch (action.type) {
-    case FOLDER_ADD:
-      return Object.assign({}, state, {current, arr: [...arr, action.folder]} )
+    case FOLDER_SAVE:
+      return Object.assign({}, state, {current: action.payload.folder, arr: [...arr, action.payload.folder]} )
     case FOLDER_SELECTED:
       return Object.assign({}, state, {arr, current: action.folder} )
     case LINK_DELETE:
@@ -55,17 +55,33 @@ export default function folders (state = initialState, action){
       return nD
     break
     case LINK_SAVE:
-      let nC = JSON.parse(JSON.stringify(state))
+      let nf = JSON.parse(JSON.stringify(current))
+      let link = action.payload.link
+      link.parent = { id: current.id, name: current.name }
+
+      if(action.payload.edit)
+        nf.links[nf.links.findIndex(li => li.id == link.id)] = link
+      else{
+        window.scrollTo(0,0)
+        nf.links.unshift(link)
+      }
+      arr.splice(arr.indexOf(current),1,nf)
+      //arr.unshift(nf)
+      return Object.assign({}, state, {arr, current: nf})
+      /*let nC = JSON.parse(JSON.stringify(state))
 
       let link = action.payload.link,
       fld = nC.current
+      console.log('aaa',link)
       if(action.payload.edit)
         fld.links[fld.links.findIndex(li => li.id == link.id)] = link
       else{
         window.scrollTo(0,0)
         fld.links.unshift(link)
       }
-      return nC
+      nC.current
+      console.log(nC)
+      return nC*/
     default:
       return state;
   }

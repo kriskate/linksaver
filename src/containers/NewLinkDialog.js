@@ -13,38 +13,41 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 const
   LABEL_CANCEL="Cancel", LABEL_SAVE="Save", LABEL_ADD="Add",
-  LABEL_TITLE_EDIT="Edit the current link", LABEL_TITLE="Add a new link"
+  LABEL_TITLE_EDITF="Edit the current folder", LABEL_TITLEF="Add a new folder",
+  LABEL_TITLE_EDITL="Edit the current link", LABEL_TITLEL="Add a new link"
 
 
 function mapDispatchToProps(dispatch){
   return{
-    handleClose: (edit) => {
-      dispatch(handleLink_DialogClose({edit}))
+    handleClose: (payload) => {
+      dispatch(handleLink_DialogClose(payload))
     },
   }
 }
 
 class NewLinkDialog extends Component{
-  handleExit(close, edit, shouldSave){
-    close(edit)
-    shouldSave && this.refs.newlink.getWrappedInstance().save(edit) && this.refs.newlink.getWrappedInstance().reset()
+  handleExit(payload, shouldSave){
+    this.props.handleClose(payload)
+    shouldSave && this.refs.newlink.getWrappedInstance().save(payload.edit)
+    shouldSave && this.refs.newlink.getWrappedInstance().reset()
   }
   render() {
-    const { isSaveActive, edit, open, handleClose, link, folder } = this.props
+    const { isSaveActive, edit, open, handleClose, link, folder, type } = this.props
     const action_buttons = [
       <FlatButton primary={true} label={LABEL_CANCEL}
-        onTouchTap={() => this.handleExit(handleClose, edit)} />,
+        onTouchTap={() => this.handleExit({type, edit})} />,
       <FlatButton primary={true} label={ edit ? LABEL_SAVE : LABEL_ADD } disabled={!isSaveActive}
-        onTouchTap={() => this.handleExit(handleClose, edit, true)} />,
+        onTouchTap={() => this.handleExit({type, edit}, true)} />,
     ]
-    let Content = link ? NewLink : NewFolder
+    let Content = type == "link" ? NewLink : NewFolder
+    let LABEL = type == "link" ? edit ? LABEL_TITLE_EDITL : LABEL_TITLEL : edit ? LABEL_TITLE_EDITF : LABEL_TITLEF
 
     lockScrolling(open)
     return(
       <Dialog
-        title={ edit ? LABEL_TITLE_EDIT : LABEL_TITLE } actions={action_buttons}
+        title={LABEL} actions={action_buttons}
         modal={false}
-        open={open} onRequestClose={() => this.handleExit(handleClose, edit)} >
+        open={open} onRequestClose={() => this.handleExit({type, edit})} >
 
         <Content ref="newlink" {...this.props} />
       </Dialog>

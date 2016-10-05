@@ -14,7 +14,8 @@ import IconBack from 'material-ui/svg-icons/navigation/arrow-back'
 
 const
   LABEL_CANCEL="Cancel", LABEL_SAVE="Save", LABEL_ADD="Add",
-  LABEL_TITLE_EDIT="Edit the current link", LABEL_TITLE="Add a new link",
+  LABEL_TITLE_EDITF="Edit the current folder", LABEL_TITLEF="Add a new folder",
+  LABEL_TITLE_EDITL="Edit the current link", LABEL_TITLEL="Add a new link",
 
   styles = {
     main:{
@@ -34,16 +35,17 @@ const
 
 function mapDispatchToProps(dispatch){
   return{
-    handleClose: (edit) => {
-      dispatch(handleLink_DialogClose({edit}))
+    handleClose: (payload) => {
+      dispatch(handleLink_DialogClose(payload))
     },
   }
 }
 
 class NewLinkPage extends Component{
-  handleExit(close, edit, shouldSave){
-    close(edit)
-    shouldSave && this.refs.newlink.getWrappedInstance().save(edit) && this.refs.newlink.getWrappedInstance().reset()
+  handleExit(shouldSave){
+    this.props.handleClose(payload)
+    shouldSave && this.refs.newlink.getWrappedInstance().save(payload.edit)
+    shouldSave && this.refs.newlink.getWrappedInstance().reset()
   }
   render() {
     const { isSaveActive, edit, open, handleClose, link, folder } = this.props
@@ -52,6 +54,7 @@ class NewLinkPage extends Component{
       opacity: open ? 1 : 0,
     }
     let Content = link ? NewLink : NewFolder
+    let LABEL = link ? edit ? LABEL_TITLE_EDITL : LABEL_TITLEL : edit ? LABEL_TITLE_EDITF : LABEL_TITLEF
 
     lockScrolling(open)
     !open && changeChromeThemeColor(THEME1);
@@ -60,10 +63,10 @@ class NewLinkPage extends Component{
 
     return(
       <div className="material-animated" style={Object.assign({}, styles.main, mainStyle)}>
-        <AppBar style={{backgroundColor: link ? THEME3 : THEME2 }} zDepth={0} title={ edit ? LABEL_TITLE_EDIT : LABEL_TITLE }
-          iconElementLeft={<IconButton onTouchTap={() => this.handleExit(handleClose, edit)}>
+        <AppBar style={{backgroundColor: link ? THEME3 : THEME2 }} zDepth={0} title={LABEL}
+          iconElementLeft={<IconButton onTouchTap={() => this.handleExit({type, edit})}>
             <IconBack/></IconButton>}
-          iconElementRight={<IconButton disabled={!isSaveActive} onTouchTap={() => this.handleExit(handleClose, edit, true)}>
+          iconElementRight={<IconButton disabled={!isSaveActive} onTouchTap={() => this.handleExit({type, edit}, true) }>
             <IconCheck/></IconButton>}
         />
         <div style={styles.content}>
