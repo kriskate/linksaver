@@ -6,7 +6,7 @@ import FlatButton from 'material-ui/FlatButton'
 import AddIcon from 'material-ui/svg-icons/content/add-circle-outline'
 import Divider from 'material-ui/Divider';
 
-import { folderSave, handleLink_DialogChange, snackbar } from '../actions'
+import { folderSave, handleLink_DialogChange, handleLink_DialogClose, snackbar } from '../actions'
 
 
 const
@@ -46,13 +46,15 @@ const mapStateToProps = (state) => (
 
 function mapDispatchToProps(dispatch){
   return{
-    save: (edit) => {
+    save: (edit, closeDialog) => {
       if(!tempState.name) return
 
+      closeDialog && dispatch(handleLink_DialogClose(tempState))
       dispatch(folderSave({ edit, folder: tempState }))
       dispatch(snackbar({ message: "Folder saved!" }))
 
       if(typeof(edit) == 'function') edit()
+
     },
     handleChange: (e, payload) => {
       let changedProp
@@ -95,10 +97,12 @@ class NewFolder extends Component{
     if(!initState || Object.keys(initState).length === 0) return <div/>
 
     const { id, name, subfolders, links, shared, isGoto, isSubFolder } = initState
-    if(!tempState) tempState = Object.assign({}, initState)
+    tempState = Object.assign({}, initState)
+
 
     return(
       <div style={styles.main}>
+      <form onSubmit={(ev) => {ev.preventDefault(); save(edit, !quick)}}>
         <TextField fullWidth={true} id={ATTR_NAME}
           onChange={handleChange}
           hintText={!quick ? LABEL_NAME : LABEL_TITLE_QUICKADD}
@@ -119,8 +123,8 @@ class NewFolder extends Component{
               <div><b>subfolders</b></div>
               <div>shared</div>
           </div>
-          : <FlatButton label={LABEL_ADD} primary={true} icon={<AddIcon />} style={styles.addButton} onTouchTap={() => save(this.reset)}/>}
-
+          : <FlatButton label={LABEL_ADD} primary={true} icon={<AddIcon />} style={styles.addButton} onTouchTap={() => save(edit)}/>}
+      </form>
       </div>)
   }
 }

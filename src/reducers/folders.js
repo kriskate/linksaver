@@ -43,7 +43,10 @@ export default function folders (state = initialState, action){
   switch (action.type) {
     case FOLDER_SAVE:
       let fS = action.payload.folder
-      action.payload.folder.isSubFolder ? current.subfolders.push(fS) : arr.push(fS)
+      if(action.payload.edit == true)
+        arr.splice(arr.indexOf(current), 1, action.payload.folder)
+      else
+        action.payload.folder.isSubFolder ? current.subfolders.push(fS) : arr.push(fS)
       return Object.assign({}, state, {current: fS, arr: [...arr]} )
     case FOLDER_SELECTED:
       return Object.assign({}, state, {arr, current: action.folder} )

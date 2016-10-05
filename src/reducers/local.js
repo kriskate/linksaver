@@ -29,7 +29,7 @@ const dialog_linkChangedState = (state, {link, folder, open, edit, isSaveActive,
     link_dialog: {
       open, edit, isSaveActive,
       link: removeDataL ? {} : Object.assign({}, state.link_dialog.link, link || {}),
-      folder: removeDataF ? {} : Object.assign({}, state.link_dialog.folder, folder || {}),
+      folder: removeDataF ? new FolderModel({}) : Object.assign({}, state.link_dialog.folder, folder || {}),
       type: type || state.link_dialog.type,
     }
   })
@@ -47,6 +47,7 @@ export default function localReducer (state = initialState, action){
     case LOG_IN_CHANGE:
       return Object.assign({}, state, { loggedIn: action.payload })
     case SNACKBAR_OPEN:
+      return state
       return Object.assign({}, state, { snackbar: Object.assign({}, state.snackbar, action.payload, {open: action.payload.open == false ? false : true}) })
     case TOGGLE_ADD_OPEN:
       return Object.assign({}, state, { addOpen: action.payload === false ? false : !state.addOpen })
@@ -65,7 +66,7 @@ export default function localReducer (state = initialState, action){
     case LINK_SAVE:
       return dialog_linkChangedState(state, {removeDataL:true})
     case FOLDER_SAVE:
-      return dialog_linkChangedState(state, {folder: new FolderModel({})})
+      return dialog_linkChangedState(state, {removeDataF: true})
 
     default:
       return state

@@ -40,13 +40,12 @@ const styles = {
   },
 };
 
-  const editBtn = (
-    <IconButton>
-      <EditorModeEdit />
-    </IconButton>
+  const editBtn = (edit) => (
+      <EditorModeEdit onTouchTap={edit} />
   )
   const FolderItem = (folder) => (
-    <ListItem key={folder.id} primaryText={folder.name} value={folder} nestedItems={
+    <ListItem key={folder.id} initiallyOpen={true} primaryText={folder.name} value={folder}
+    nestedItems={
       folder.subfolders.map((subfolder) => (
       FolderItem(subfolder)
      ))}
@@ -73,7 +72,7 @@ class AppNavDrawer extends Component {
         <ListItem key={0}
           leftAvatar={<Avatar src={user.pic} />} primaryText={"profile"}
         nestedItems={[
-          <ListItem key={0} rightIconButton={editBtn} primaryText={user.username}/>,
+          <ListItem key={0} rightIconButton={editBtn()} primaryText={user.username}/>,
           <ListItem key={1} rightIcon={<EditorModeEdit />} primaryText={user.email}/>,
         ]}
           />
@@ -93,7 +92,7 @@ class AppNavDrawer extends Component {
 
         </SelectableList>
         <Divider />
-        <NewFolder folder={link_dialog.folder} quick={true}/>
+        <NewFolder folder={Object.assign({}, link_dialog.folder, {edit:false})} quick={true}/>
       </Drawer>
     )
   }
