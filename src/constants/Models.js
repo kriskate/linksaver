@@ -15,7 +15,7 @@ export function UserModel ({ id, username, pass="", folders=[], pic, email="" })
   }
 }
 
-export function FolderModel ({ id=uuid.v4(), name="", subfolders=[], links=[], shared=[], isGoto=false }) {
+export function FolderModel ({ id=uuid.v4(), name="", subfolders=[], links=[], shared=[], isGoto=false, isSubFolder=false }) {
   return {
     id,                // id
     name,              // string
@@ -23,6 +23,7 @@ export function FolderModel ({ id=uuid.v4(), name="", subfolders=[], links=[], s
     links,             // array of LinkModels
     shared,      // array of usernames/ e-mails to which this folder is shared
     isGoto,      // the category of folders it belongs to, true if GO-TO
+    isSubFolder,      // is a sufolder
   }
 }
 

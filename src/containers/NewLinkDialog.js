@@ -45,6 +45,7 @@ class NewLinkDialog extends Component{
     lockScrolling(open)
     return(
       <Dialog
+        contentStyle={type == "link" ? {} : {maxWidth:400}}
         title={LABEL} actions={action_buttons}
         modal={false}
         open={open} onRequestClose={() => this.handleExit({type, edit})} >

@@ -42,7 +42,9 @@ export default function folders (state = initialState, action){
   let { arr, current } = state
   switch (action.type) {
     case FOLDER_SAVE:
-      return Object.assign({}, state, {current: action.payload.folder, arr: [...arr, action.payload.folder]} )
+      let fS = action.payload.folder
+      action.payload.folder.isSubFolder ? current.subfolders.push(fS) : arr.push(fS)
+      return Object.assign({}, state, {current: fS, arr: [...arr]} )
     case FOLDER_SELECTED:
       return Object.assign({}, state, {arr, current: action.folder} )
     case LINK_DELETE:
@@ -66,22 +68,7 @@ export default function folders (state = initialState, action){
         nf.links.unshift(link)
       }
       arr.splice(arr.indexOf(current),1,nf)
-      //arr.unshift(nf)
       return Object.assign({}, state, {arr, current: nf})
-      /*let nC = JSON.parse(JSON.stringify(state))
-
-      let link = action.payload.link,
-      fld = nC.current
-      console.log('aaa',link)
-      if(action.payload.edit)
-        fld.links[fld.links.findIndex(li => li.id == link.id)] = link
-      else{
-        window.scrollTo(0,0)
-        fld.links.unshift(link)
-      }
-      nC.current
-      console.log(nC)
-      return nC*/
     default:
       return state;
   }

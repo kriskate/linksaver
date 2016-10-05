@@ -76,12 +76,18 @@ class AppNavDrawer extends Component {
         >
           <Subheader style={styles.subheader}>GO-TOs</Subheader>
             {folders.arr.filter(folder => folder.isGoto).map((folder) =>
-              <ListItem key={folder.id} primaryText={folder.name} value={folder} />
+              <ListItem key={folder.id} primaryText={folder.name} value={folder} nestedItems={
+                folder.subfolders.map((subfolder) => (
+                <ListItem key={subfolder.id} primaryText={subfolder.name} value={subfolder} /> ))}
+              />
             )}
           <Divider />
           <Subheader style={styles.subheader}>REGULARs</Subheader>
             {folders.arr.filter(folder => !folder.isGoto).map((folder) =>
-              <ListItem key={folder.id} primaryText={folder.name} value={folder} />
+              <ListItem key={folder.id} primaryText={folder.name} value={folder} nestedItems={
+                folder.subfolders.map((subfolder) => (
+                <ListItem key={subfolder.id} primaryText={subfolder.name} value={subfolder} /> ))}
+              />
             )}
 
         </SelectableList>

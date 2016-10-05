@@ -19,7 +19,9 @@ const
 
   styles={
     main: {
-      padding:20
+      padding:20,
+      maxWidth: 300,
+      position: "relative",
     },
     addButton: { width: "100%" },
     checkbox: {
@@ -101,15 +103,17 @@ class NewFolder extends Component{
           hintText={LABEL_NAME}
           value={name} />
 
-        <Divider/>
         <Toggle id={ATTR_GOTO} onToggle={handleChange} label={LABEL_ISGOTO}
                 style={styles.checkbox} toggled={isGoto} />
-        <Divider/>
         <Toggle id={ATTR_SUBFOLDER} onToggle={handleChange} label={LABEL_SUBFOLDER + currentFolder.name}
                 style={styles.checkbox} toggled={isGoto ? false : isSubFolder} disabled={isGoto} />
 
-        {!quick ? null :
-          <FlatButton label={LABEL_ADD} primary={true} icon={<AddIcon />} style={styles.addButton} onTouchTap={() => save(this.reset)}/>}
+        {!quick
+          ? <div style={{marginTop:30}}>
+              <div><b>subfolders</b></div>
+              <div>shared</div>
+          </div>
+          : <FlatButton label={LABEL_ADD} primary={true} icon={<AddIcon />} style={styles.addButton} onTouchTap={() => save(this.reset)}/>}
 
       </div>)
   }
