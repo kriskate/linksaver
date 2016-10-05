@@ -12,6 +12,10 @@ import DatePicker from 'material-ui/DatePicker'
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card'
 import {orange500, blue500} from 'material-ui/styles/colors'
 
+import withWidth, {MEDIUM} from 'material-ui/utils/withWidth';
+
+
+
 const
   // element id's
   ATTR_LINK = "ATTR_LINK",
@@ -115,7 +119,7 @@ function mapStateToProps(state){
 class NewLink extends Component {
   reset() { console.log('reset');tempState = null }
   render(){
-    const { edit, handleChange, currentFolder, save } = this.props
+    const { edit, handleChange, currentFolder, save, width } = this.props
     this.save = save // for calling from parent
     initState = this.props.link
     if(Object.keys(initState).length === 0) return null
@@ -149,7 +153,7 @@ class NewLink extends Component {
             value={description || ""}/>
             <div>
               { edit ? LABEL_EXPY_EDIT : LABEL_EXPY }
-              <DatePicker container="inline" mode="portrait" autoOk={true}
+              <DatePicker container={width < MEDIUM ? "dialog" : "inline"} mode="portrait" autoOk={true}
               id={ATTR_EXPY} onChange={handleChange} defaultDate={date_expire} />
               <div>{LABEL_RATE}</div>
               <Rater id={ATTR_RATE} onRate={handleChange} rating={rating}/>
@@ -162,4 +166,4 @@ class NewLink extends Component {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(NewLink)
+export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(withWidth()(NewLink))

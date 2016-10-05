@@ -34,7 +34,8 @@ export class App extends Component {
     } = this.props
 
     let _drawerDocked = width > MEDIUM,
-        _drawerOpen = _drawerDocked ? true : drawerOpen
+        _drawerOpen = _drawerDocked ? true : drawerOpen,
+        _mobile = width < MEDIUM
 
     // HACK - calling this here because we need state.folders.current
     if(!defaultsAssigned){
@@ -49,9 +50,9 @@ export class App extends Component {
       ? synchronized
         ? <div>
             {
-              (_drawerDocked
-              ? <NewLinkDialog {...link_dialog} />
-              : <NewLinkPage {...link_dialog} />)
+              _mobile
+              ? <NewLinkPage {...link_dialog} />
+              : <NewLinkDialog {...link_dialog} />
             }
             <AppNavDrawer /*location={location}*/
               user={user} folders={folders}
