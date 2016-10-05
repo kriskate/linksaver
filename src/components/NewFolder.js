@@ -97,16 +97,18 @@ class NewFolder extends Component{
 
     return(
       <div style={styles.main}>
-        {!quick ? null : LABEL_TITLE_QUICKADD}
         <TextField fullWidth={true} id={ATTR_NAME}
           onChange={handleChange}
-          hintText={LABEL_NAME}
+          hintText={!quick ? LABEL_NAME : LABEL_TITLE_QUICKADD}
           value={name} />
-
-        <Toggle id={ATTR_GOTO} onToggle={handleChange} label={LABEL_ISGOTO}
-                style={styles.checkbox} toggled={isGoto} />
-        <Toggle id={ATTR_SUBFOLDER} onToggle={handleChange} label={LABEL_SUBFOLDER + currentFolder.name}
-                style={styles.checkbox} toggled={isGoto ? false : isSubFolder} disabled={isGoto} />
+        { quick ? null :
+        <div>
+          <Toggle id={ATTR_GOTO} onToggle={handleChange} label={LABEL_ISGOTO}
+                  style={styles.checkbox} toggled={isGoto} />
+          <Toggle id={ATTR_SUBFOLDER} onToggle={handleChange} label={LABEL_SUBFOLDER + currentFolder.name}
+                  style={styles.checkbox} toggled={isGoto ? false : isSubFolder} disabled={isGoto} />
+        </div>
+        }
 
         {!quick
           ? <div style={{marginTop:30}}>
