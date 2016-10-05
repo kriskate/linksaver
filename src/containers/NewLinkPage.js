@@ -42,28 +42,29 @@ function mapDispatchToProps(dispatch){
 }
 
 class NewLinkPage extends Component{
-  handleExit(shouldSave){
+  handleExit(payload, shouldSave){
     this.props.handleClose(payload)
     shouldSave && this.refs.newlink.getWrappedInstance().save(payload.edit)
     shouldSave && this.refs.newlink.getWrappedInstance().reset()
   }
   render() {
-    const { isSaveActive, edit, open, handleClose, link, folder } = this.props
+    const { isSaveActive, edit, open, handleClose, link, folder, type } = this.props
     const mainStyle = {
       top: open ? 0 : getPageHeight(),
       opacity: open ? 1 : 0,
     }
-    let Content = link ? NewLink : NewFolder
-    let LABEL = link ? edit ? LABEL_TITLE_EDITL : LABEL_TITLEL : edit ? LABEL_TITLE_EDITF : LABEL_TITLEF
+
+    let Content = type == 'link' ? NewLink : NewFolder
+    let LABEL = type == 'link' ? edit ? LABEL_TITLE_EDITL : LABEL_TITLEL : edit ? LABEL_TITLE_EDITF : LABEL_TITLEF
 
     lockScrolling(open)
     !open && changeChromeThemeColor(THEME1);
     open && folder && changeChromeThemeColor(THEME2);
-    open && link && changeChromeThemeColor(THEME3);
+    open && type == 'link' && changeChromeThemeColor(THEME3);
 
     return(
       <div className="material-animated" style={Object.assign({}, styles.main, mainStyle)}>
-        <AppBar style={{backgroundColor: link ? THEME3 : THEME2 }} zDepth={0} title={LABEL}
+        <AppBar style={{backgroundColor: type == 'link' ? THEME3 : THEME2 }} zDepth={0} title={LABEL}
           iconElementLeft={<IconButton onTouchTap={() => this.handleExit({type, edit})}>
             <IconBack/></IconButton>}
           iconElementRight={<IconButton disabled={!isSaveActive} onTouchTap={() => this.handleExit({type, edit}, true) }>
