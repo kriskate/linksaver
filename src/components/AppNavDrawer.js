@@ -12,6 +12,8 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import NewFolder from './NewFolder'
 
+import NewFolderItem from '../containers/NewFolderItem'
+
 import { FolderModel } from '../constants/Models'
 
 import {spacing, typography, zIndex} from 'material-ui/styles';
@@ -76,10 +78,11 @@ class AppNavDrawer extends Component {
         >
           <Subheader style={styles.subheader}>GO-TOs</Subheader>
             {folders.arr.filter(folder => folder.isGoto).map((folder) =>
-              <ListItem key={folder.id} primaryText={folder.name} value={folder} nestedItems={
+              <NewFolderItem folder={folder} />
+              /*<ListItem key={folder.id} primaryText={folder.name} value={folder} nestedItems={
                 folder.subfolders.map((subfolder) => (
                 <ListItem key={subfolder.id} primaryText={subfolder.name} value={subfolder} /> ))}
-              />
+              />*/
             )}
           <Divider />
           <Subheader style={styles.subheader}>REGULARs</Subheader>
