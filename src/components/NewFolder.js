@@ -19,11 +19,13 @@ const
 
   styles={
     main: {
-      border: "2px solid rgba(0,0,0,0.1)",
-      marginTop: 20,
       padding:20,
       maxWidth: 300,
       position: "relative",
+    },
+    borderedMain: {
+      marginTop: 70,
+      border: "2px solid rgba(0,0,0,0.1)",
     },
     addButton: { width: "100%" },
     checkbox: {
@@ -101,7 +103,8 @@ class NewFolder extends Component{
 
 
     return(
-      <form style={styles.main} onSubmit={(ev) => {ev.preventDefault(); save(edit, !quick)}}>
+      <form style={Object.assign({}, styles.main, quick ? styles.borderedMain : {})}
+          onSubmit={(ev) => {ev.preventDefault(); save(edit, !quick)}}>
         <TextField fullWidth={true} id={ATTR_NAME}
           onChange={handleChange}
           hintText={!quick ? LABEL_NAME : LABEL_TITLE_QUICKADD}

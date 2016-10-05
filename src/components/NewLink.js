@@ -50,7 +50,10 @@ let tempState, initState = null
 
 function mapDispatchToProps(dispatch){
   return{
-    save: (edit) => {
+    save: (edit, closeDialog) => {
+      if(!checkValid()) return
+
+      closeDialog && dispatch(handleLink_DialogClose(tempState))
       dispatch(linkSave({ edit, link: tempState }))
       dispatch(snackbar({ message: "Link saved!" }))
     },
@@ -85,7 +88,7 @@ function mapDispatchToProps(dispatch){
                   let isSaveActive = true
                   dispatch(handleLink_DialogChange({link:{name}, isSaveActive}))
                 }
-              })
+              }).catch((err) => { })
           break
           case ATTR_NAME:
             tempState.name = payload
@@ -119,7 +122,7 @@ function mapStateToProps(state){
 class NewLink extends Component {
   reset() { tempState = null }
   render(){
-    const { edit, handleChange, currentFolder, save, width } = this.props
+    const { edit, handleChange, currentFolder, save, quick, width } = this.props
     this.save = save // for calling from parent
     initState = this.props.link
     if(Object.keys(initState).length === 0) return null
@@ -130,7 +133,8 @@ class NewLink extends Component {
 
     return (
       <div>
-        <div style={styles.add}>
+        <form style={styles.add}
+            onSubmit={(ev) => {console.log('ere');ev.preventDefault(); save(edit, !quick)}}>
           <TextField style={styles.url} fullWidth={true}
             id={ATTR_LINK} onChange={handleChange}
             floatingLabelText={LABEL_LINK} floatingLabelStyle={styles.errorStyle}
@@ -142,7 +146,7 @@ class NewLink extends Component {
             hintText={LABEL_NAME_HINT}
             errorText={name ? "" : ERROR_REQUIRED }
             value={name || ""} />
-        </div>
+        </form>
         <Card>
           <CardText>
           <i>details:</i>
