@@ -12,6 +12,9 @@ import DatePicker from 'material-ui/DatePicker'
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card'
 import {orange500, blue500} from 'material-ui/styles/colors'
 
+import FlatButton from 'material-ui/FlatButton'
+import AddIcon from 'material-ui/svg-icons/content/add-circle-outline'
+
 import withWidth, {MEDIUM} from 'material-ui/utils/withWidth';
 
 
@@ -24,6 +27,7 @@ const
   ATTR_RATE = "ATTR_RATE",
   ATTR_EXPY = "ATTR_EXPY",
   // labels
+  LABEL_TITLE_QUICKADD = "Quick add link",
   LABEL_LINK = "URL (link)",
   LABEL_NAME = "title", LABEL_NAME_HINT = "If empty, will try to autocomplete",
   LABEL_DESC = "description", LABEL_DESC_HINT="leave blank for no description",
@@ -34,16 +38,18 @@ const
   ERROR_REQUIRED = "Required",
   // warnings
   WARN_TOOMUCHDESCRIPTION = "Warning! the description will be cut at two rows",
+  WARN_UNAVAILABLE = "New link",
 
   styles = {
     url: {  minWidth:20, marginRight:15, },
+    quick_url: { minWidth: 20, width: "calc(100% - 90px)", },
     add: { zIndex: 2, marginBottom:10 },
     errorStyle: { color: orange500, },
     floatingLabelFocusStyle: { color: blue500, },
   }
 
 
-let tempState, initState = null
+let quick, tempState, initState = null
 
 
 
@@ -51,7 +57,7 @@ let tempState, initState = null
 function mapDispatchToProps(dispatch){
   return{
     save: (edit, closeDialog) => {
-      if(!checkValid()) return
+      if(!tempState.name && !isValidURL(tempState.url)) return
 
       closeDialog && dispatch(handleLink_DialogClose(tempState))
       dispatch(linkSave({ edit, link: tempState }))
@@ -88,7 +94,8 @@ function mapDispatchToProps(dispatch){
                   let isSaveActive = true
                   dispatch(handleLink_DialogChange({link:{name}, isSaveActive}))
                 }
-              }).catch((err) => { })
+              }).catch((err) => { !tempState.name && dispatch(handleLink_DialogChange({link:{name: tempState.url}, isSaveActive})) })
+            quick && !tempState.name && dispatch(handleLink_DialogChange({link:{name: tempState.url}}))
           break
           case ATTR_NAME:
             tempState.name = payload
@@ -120,34 +127,46 @@ function mapStateToProps(state){
 
 
 class NewLink extends Component {
+  constructor(props){
+    super(props)
+    this.alabala = "portocala"
+  }
   reset() { tempState = null }
   render(){
-    const { edit, handleChange, currentFolder, save, quick, width } = this.props
+    quick = this.props.quick
+    const { edit, handleChange, currentFolder, save, width } = this.props
     this.save = save // for calling from parent
+    //require("../utils/Utils").multiInstanceLog(this)
     initState = this.props.link
-    if(Object.keys(initState).length === 0) return null
+    if(!initState || Object.keys(initState).length === 0) return null
 
     const { id, name, url, pic, description, date_added, date_expire, rating, archived, parent } = initState
-    if(!tempState) tempState = Object.assign({}, initState)
+    tempState = Object.assign({}, initState)
 
 
     return (
-      <div>
-        <form style={styles.add}
-            onSubmit={(ev) => {console.log('ere');ev.preventDefault(); save(edit, !quick)}}>
-          <TextField style={styles.url} fullWidth={true}
+      <form id="form" onSubmit={(ev) => { ev.preventDefault(); save(edit, !quick)}}>
+
+        <div style={styles.add}>
+          <TextField style={quick ? styles.quick_url : styles.url} fullWidth={!quick}
             id={ATTR_LINK} onChange={handleChange}
-            floatingLabelText={LABEL_LINK} floatingLabelStyle={styles.errorStyle}
-            errorText={isValidURL(url) ? "" : ERROR_REQUIRED + ". " + ERROR_VALIDHTTP }
+            hintText={quick ? LABEL_TITLE_QUICKADD : ""}
+            floatingLabelText={quick ? "" : LABEL_LINK} floatingLabelStyle={styles.errorStyle}
+            errorText={quick || isValidURL(url) ? "" : ERROR_REQUIRED + ". " + ERROR_VALIDHTTP }
             value={url || ""} />
-          <TextField style={styles.url} fullWidth={true}
+
+          { quick ? <FlatButton primary={true} icon={<AddIcon />} onTouchTap={() => save(edit)}/>
+          : <TextField style={styles.url} fullWidth={true}
             id={ATTR_NAME} onChange={handleChange}
             floatingLabelText={LABEL_NAME} floatingLabelStyle={styles.floatingLabelFocusStyle}
             hintText={LABEL_NAME_HINT}
             errorText={name ? "" : ERROR_REQUIRED }
             value={name || ""} />
-        </form>
-        <Card>
+          }
+        </div>
+
+        { quick ? null
+        : <Card>
           <CardText>
           <i>details:</i>
             <TextField multiLine={true} rows={1} rowsMax={4} fullWidth={true}
@@ -157,17 +176,19 @@ class NewLink extends Component {
             value={description || ""}/>
             <div>
               { edit ? LABEL_EXPY_EDIT : LABEL_EXPY }
-              <DatePicker container={width < MEDIUM ? "dialog" : "inline"} mode="portrait" autoOk={true}
+              {/*to-do: come back to this withWidth problem */}
+              <DatePicker container={/* width < MEDIUM ? "dialog" : */"inline"} mode="portrait" autoOk={true}
               id={ATTR_EXPY} onChange={handleChange} defaultDate={date_expire} />
               <div>{LABEL_RATE}</div>
               <Rater id={ATTR_RATE} onRate={handleChange} rating={rating}/>
             </div>
           </CardText>
        </Card>
-      </div>
+       }
+      </form>
     )
   }
 }
 
-
-export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(withWidth()(NewLink))
+/*NewLink = withWidth()(NewLink)*/
+export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(NewLink)

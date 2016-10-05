@@ -28,6 +28,7 @@ function mapDispatchToProps(dispatch){
 class NewLinkDialog extends Component{
   handleExit(payload, shouldSave){
     this.props.handleClose(payload)
+
     shouldSave && this.refs.newlink.getWrappedInstance().save(payload.edit)
     shouldSave && this.refs.newlink.getWrappedInstance().reset()
   }

@@ -24,6 +24,7 @@ const dialog_linkChangedState = (state, {link, folder, open, edit, isSaveActive,
   open = open === undefined ? state.link_dialog.open : open
   edit = edit === undefined ? state.link_dialog.edit : edit
   isSaveActive = isSaveActive === undefined ? state.link_dialog.isSaveActive : isSaveActive
+  if(link && link.name && link.name.length > 50) link.name = link.name.substring(0, 50)
 
   return Object.assign({}, state, {
     link_dialog: {
@@ -64,7 +65,7 @@ export default function localReducer (state = initialState, action){
     case LINK_DIALOG_CHANGE:
       return dialog_linkChangedState(state, {link:action.payload.link, folder:action.payload.folder, isSaveActive: action.payload.isSaveActive})
     case LINK_SAVE:
-      return dialog_linkChangedState(state, {removeDataL:true})
+      return dialog_linkChangedState(state, {removeDataL: true})
     case FOLDER_SAVE:
       return dialog_linkChangedState(state, {removeDataF: true})
 

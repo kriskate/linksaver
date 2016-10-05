@@ -96,7 +96,7 @@ class NewFolder extends Component{
     const { edit, handleChange, currentFolder, save, quick } = this.props
     this.save = save // for calling from parent
     initState = this.props.folder
-    if(!initState || Object.keys(initState).length === 0) return <div/>
+    if(!initState || Object.keys(initState).length === 0) return null
 
     const { id, name, subfolders, links, shared, isGoto, isSubFolder } = initState
     tempState = Object.assign({}, initState)
@@ -109,23 +109,26 @@ class NewFolder extends Component{
           onChange={handleChange}
           hintText={!quick ? LABEL_NAME : LABEL_TITLE_QUICKADD}
           value={name} />
+
         { quick
           ? <Toggle id={ATTR_SUBFOLDER} onToggle={handleChange} label={LABEL_SUBFOLDER + currentFolder.name}
                   style={styles.checkbox} toggled={isGoto ? false : isSubFolder} disabled={isGoto} />
           : <div>
-          <Toggle id={ATTR_GOTO} onToggle={handleChange} label={LABEL_ISGOTO}
-                  style={styles.checkbox} toggled={isGoto} />
-          <Toggle id={ATTR_SUBFOLDER} onToggle={handleChange} label={LABEL_SUBFOLDER + currentFolder.name}
+              <Toggle id={ATTR_GOTO} onToggle={handleChange} label={LABEL_ISGOTO}
+                      style={styles.checkbox} toggled={isGoto} />
+              <Toggle id={ATTR_SUBFOLDER} onToggle={handleChange} label={LABEL_SUBFOLDER + currentFolder.name}
                   style={styles.checkbox} toggled={isGoto ? false : isSubFolder} disabled={isGoto || edit} />
-        </div>
+            </div>
         }
 
-        {!quick
-          ? <div style={{marginTop:30}}>
+        { quick
+          ? <FlatButton label={LABEL_ADD} primary={true} icon={<AddIcon />}
+              style={styles.addButton} onTouchTap={() => save(edit)}/>
+          : <div style={{marginTop:30}}>
               <div><b>subfolders</b></div>
               <div>shared</div>
-          </div>
-          : <FlatButton label={LABEL_ADD} primary={true} icon={<AddIcon />} style={styles.addButton} onTouchTap={() => save(edit)}/>}
+            </div>
+        }
       </form>
     )
   }
