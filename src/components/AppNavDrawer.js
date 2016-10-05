@@ -12,8 +12,6 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import NewFolder from './NewFolder'
 
-import NewFolderItem from '../containers/NewFolderItem'
-
 import { FolderModel } from '../constants/Models'
 
 import {spacing, typography, zIndex} from 'material-ui/styles';
@@ -47,6 +45,13 @@ const styles = {
       <EditorModeEdit />
     </IconButton>
   )
+  const FolderItem = (folder) => (
+    <ListItem key={folder.id} primaryText={folder.name} value={folder} nestedItems={
+      folder.subfolders.map((subfolder) => (
+      FolderItem(subfolder)
+     ))}
+    />
+  )
 class AppNavDrawer extends Component {
 
   render() {
@@ -78,19 +83,12 @@ class AppNavDrawer extends Component {
         >
           <Subheader style={styles.subheader}>GO-TOs</Subheader>
             {folders.arr.filter(folder => folder.isGoto).map((folder) =>
-              <NewFolderItem folder={folder} />
-              /*<ListItem key={folder.id} primaryText={folder.name} value={folder} nestedItems={
-                folder.subfolders.map((subfolder) => (
-                <ListItem key={subfolder.id} primaryText={subfolder.name} value={subfolder} /> ))}
-              />*/
+              FolderItem(folder)
             )}
           <Divider />
           <Subheader style={styles.subheader}>REGULARs</Subheader>
             {folders.arr.filter(folder => !folder.isGoto).map((folder) =>
-              <ListItem key={folder.id} primaryText={folder.name} value={folder} nestedItems={
-                folder.subfolders.map((subfolder) => (
-                <ListItem key={subfolder.id} primaryText={subfolder.name} value={subfolder} /> ))}
-              />
+              FolderItem(folder)
             )}
 
         </SelectableList>

@@ -19,6 +19,8 @@ const
 
   styles={
     main: {
+      border: "2px solid rgba(0,0,0,0.1)",
+      marginTop: 20,
       padding:20,
       maxWidth: 300,
       position: "relative",
@@ -45,6 +47,8 @@ const mapStateToProps = (state) => (
 function mapDispatchToProps(dispatch){
   return{
     save: (edit) => {
+      if(!tempState.name) return
+
       dispatch(folderSave({ edit, folder: tempState }))
       dispatch(snackbar({ message: "Folder saved!" }))
 
@@ -99,8 +103,10 @@ class NewFolder extends Component{
           onChange={handleChange}
           hintText={!quick ? LABEL_NAME : LABEL_TITLE_QUICKADD}
           value={name} />
-        { quick ? null :
-        <div>
+        { quick
+          ? <Toggle id={ATTR_SUBFOLDER} onToggle={handleChange} label={LABEL_SUBFOLDER + currentFolder.name}
+                  style={styles.checkbox} toggled={isGoto ? false : isSubFolder} disabled={isGoto} />
+          : <div>
           <Toggle id={ATTR_GOTO} onToggle={handleChange} label={LABEL_ISGOTO}
                   style={styles.checkbox} toggled={isGoto} />
           <Toggle id={ATTR_SUBFOLDER} onToggle={handleChange} label={LABEL_SUBFOLDER + currentFolder.name}
