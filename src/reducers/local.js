@@ -24,8 +24,7 @@ const dialog_linkChangedState = (state, {link, folder, open, edit, isSaveActive,
   open = open === undefined ? state.link_dialog.open : open
   edit = edit === undefined ? state.link_dialog.edit : edit
   isSaveActive = isSaveActive === undefined ? state.link_dialog.isSaveActive : isSaveActive
-  //console.log('wtf1', state.link_dialog.folder,folder, folder || "AAA")
-  //console.log('wtf', Object.assign({}, state.link_dialog.folder, folder || {}))
+
   return Object.assign({}, state, {
     link_dialog: {
       open, edit, isSaveActive,

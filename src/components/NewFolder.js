@@ -49,11 +49,9 @@ function mapDispatchToProps(dispatch){
       dispatch(snackbar({ message: "Folder saved!" }))
 
       if(typeof(edit) == 'function') edit()
-      console.log(edit, tempState)
     },
     handleChange: (e, payload) => {
       let changedProp
-      console.log(e,payload)
         // material-ui components
       let cid = e.target.id,
           activate = tempState[cid] !== payload
@@ -90,7 +88,7 @@ class NewFolder extends Component{
     const { edit, handleChange, currentFolder, save, quick } = this.props
     this.save = save // for calling from parent
     initState = this.props.folder
-    if(!initState) return <div/>
+    if(!initState || Object.keys(initState).length === 0) return <div/>
 
     const { id, name, subfolders, links, shared, isGoto, isSubFolder } = initState
     if(!tempState) tempState = Object.assign({}, initState)

@@ -45,6 +45,7 @@ export class App extends Component {
       })
       defaultsAssigned = true
     }
+
     return (
       loggedIn
       ? synchronized
@@ -84,7 +85,6 @@ App.propTypes = {
 
 
 function mapStateToProps(state) {
-  //console.log(state.local.link_dialog)
   return {
     loggedIn: state.local.loggedIn,
     drawerDocked: state.local.drawerDocked,

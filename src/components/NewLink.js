@@ -117,7 +117,7 @@ function mapStateToProps(state){
 
 
 class NewLink extends Component {
-  reset() { console.log('reset');tempState = null }
+  reset() { tempState = null }
   render(){
     const { edit, handleChange, currentFolder, save, width } = this.props
     this.save = save // for calling from parent
