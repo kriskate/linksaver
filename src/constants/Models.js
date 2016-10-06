@@ -3,16 +3,16 @@ import uuid from 'node-uuid'
 let defPics = ["http://www.netanimations.net/Animated-head-bobbing-cat-with-headphones-3.GIF",
    "http://orig14.deviantart.net/1fed/f/2013/065/e/a/ea1d75621a30ff9e9b5361ddd8ca2a82-d5x5gb6.gif"]
 let _pic = defPics[Math.round(Math.random())]
-export function UserModel ({ id, username, pass="", folders=[], pic, email="" }) {
-  let uid = id || uuid.v4()
-  return {
-    id: uid,                              // id
-    username: username || "guest-" + uid, // string
-    pass,                     // string of 4 numbers
-    folders,               // array of FolderModels
-    pic: pic || _pic,                 // string url to a profile pic
-    email,                   // string
-  }
+export function UserModel () {
+  let {
+    id=uuid.v4(),
+    username="guest_"+id.substring(0,4),
+    pass="",
+    folders=[],
+    pic="https://placekitten.com/300/300",
+    email="guest@"
+  } = arguments[0]
+  return { id, username, pass, folders, pic, email, }
 }
 
 export function FolderModel ({ id=uuid.v4(), name="", subfolders=[], links=[], shared=[], isGoto=false, isSubFolder=false }) {

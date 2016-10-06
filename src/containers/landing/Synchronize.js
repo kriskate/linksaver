@@ -1,6 +1,14 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
 import CircularProgress from 'material-ui/CircularProgress'
 import Paper from 'material-ui/Paper';
+
+import { synchChange } from '../../actions'
+import Storage from './Storage'
+
+
+let DB = new Storage();
 
 const styles = {
   container: {
@@ -14,7 +22,17 @@ const styles = {
     transform: 'perspective(1px) translate(-50%, -50%)'
   },
 }
-const Synchronize = () => {
+
+
+const mapStateToProps = (state) => {
+  return {  }
+}
+const mapDispatchToProps = (dispatch) => ({
+    synch: () => dispatch(synchChange({synchronized: true}))
+})
+const Synchronize = ({ loggedIn, offline, synch }) => {
+  console.log('Synchronize', offline)
+
   return(
     <div style={styles.container}>
       <Paper style={styles.paper}>
@@ -26,4 +44,4 @@ const Synchronize = () => {
 }
 
 
-export default Synchronize
+export default connect(mapStateToProps, mapDispatchToProps)(Synchronize)

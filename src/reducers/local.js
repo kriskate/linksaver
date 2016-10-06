@@ -4,9 +4,11 @@ import { VIEW_LIST, VIEW_CARD, SORT_USER, SORT_URL, SORT_DATE_ADDED, SORT_RATING
 import { UserModel, LinkModel, FolderModel } from '../constants/Models'
 
 const initialState = {
-  synchronized: true,
-  loggedIn: true,
+  signUpNeeded: false,
+  loggedIn: false,
   offline: false,
+  synchronized: false,
+
   user: new UserModel({}),
   autoLogCookie: true,
   drawerOpen: false,
@@ -39,17 +41,21 @@ const dialog_linkChangedState = (state, {link, folder, open, edit, isSaveActive,
 
 export default function localReducer (state = initialState, action){
   switch (action.type) {
+    case LOG_IN_CHANGE:
+      const { signUpNeeded, loggedIn, offline, } = action.payload
+      return Object.assign({}, state, { signUpNeeded, loggedIn, offline, })
+    case SYNCH_CHANGE:
+      const { synchronized } = action.payload
+      return Object.assign({}, state, { synchronized })
+
+    case SNACKBAR_OPEN:
+      return state
+      return Object.assign({}, state, { snackbar: Object.assign({}, state.snackbar, action.payload, {open: action.payload.open == false ? false : true}) })
+
     case TOGGLE_DRAWER_DOCK:
       return Object.assign({}, state, { drawerDocked: !state.drawerDocked })
     case TOGGLE_DRAWER_OPEN:
       return Object.assign({}, state, { drawerOpen: !state.drawerOpen })
-    case SYNCH_CHANGE:
-      return Object.assign({}, state, { synchronized: action.payload })
-    case LOG_IN_CHANGE:
-      return Object.assign({}, state, { loggedIn: action.payload })
-    case SNACKBAR_OPEN:
-      return state
-      return Object.assign({}, state, { snackbar: Object.assign({}, state.snackbar, action.payload, {open: action.payload.open == false ? false : true}) })
     case TOGGLE_ADD_OPEN:
       return Object.assign({}, state, { addOpen: action.payload === false ? false : !state.addOpen })
 

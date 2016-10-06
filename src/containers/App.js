@@ -3,15 +3,16 @@ import { bindActionCreators } from 'redux';
 import * as actions from '../actions/'
 import { connect } from 'react-redux';
 
-import Landing from './Landing';
+import Landing from './landing/Landing';
+import SignUp from './landing/SignUp';
+import Synchronize from './landing/Synchronize'
 
 import withWidth, {MEDIUM, LARGE} from 'material-ui/utils/withWidth';
 
 import { LinkModel, FolderModel } from '../constants/Models'
 
 import AppNavDrawer from '../components/AppNavDrawer'
-import Content from '../containers/Content'
-import Synchronize from '../containers/Synchronize'
+import Content from './Content'
 import Footer from '../components/Footer';
 
 import NewLinkPage from './NewLinkPage'
@@ -24,7 +25,7 @@ let defaultsAssigned
 export class App extends Component {
   render() {
     const {
-      loggedIn, synchronized, user,
+      signUpNeeded, loggedIn, offline, synchronized, user,
       drawerDocked, drawerOpen,
       folders,
       width, lastWidth,
@@ -45,9 +46,10 @@ export class App extends Component {
       })
       defaultsAssigned = true
     }
+    console.log('app', signUpNeeded, synchronized, offline)
 
     return (
-      loggedIn
+      loggedIn || offline
       ? synchronized
         ? <div>
             {
@@ -72,8 +74,8 @@ export class App extends Component {
               onRequestClose={snackbarClose}
             />
           </div>
-        : <Synchronize />
-      : <Landing />
+        : <Synchronize loggedIn offline/>
+      : signUpNeeded ? <SignUp /> : <Landing />
     )
   }
 }
@@ -86,13 +88,17 @@ App.propTypes = {
 
 function mapStateToProps(state) {
   return {
+    signUpNeeded: state.local.signUpNeeded,
     loggedIn: state.local.loggedIn,
+    offline: state.local.offline,
+    
     drawerDocked: state.local.drawerDocked,
     drawerOpen: state.local.drawerOpen,
     synchronized: state.local.synchronized,
     user: state.local.user,
     snackbar: state.local.snackbar,
     link_dialog: state.local.link_dialog,
+
     folders: state.folders,
   };
 }
@@ -101,8 +107,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   // to-do - these are tests; remove actions import after removing this
   let inc = 1
-  setTimeout(function(){ dispatch(actions.logInChange(true)) }, inc)
-  setTimeout(function(){ dispatch(actions.synchChange(true))}, inc*2)
+  /*setTimeout(function(){ dispatch(actions.logInChange(true)) }, inc)
+  setTimeout(function(){ dispatch(actions.synchChange(true))}, inc*2)*/
 
   return{
     assignDefaultModels: ({link, folder}) => dispatch(actions.completeDefaults({link, folder})),
