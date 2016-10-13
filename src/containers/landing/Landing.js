@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
 import { logInChange } from '../../actions'
@@ -73,6 +74,14 @@ class Landing extends Component{
           <h3>{/*OR */}continue as <b>guest</b></h3><br/>
           <RaisedButton primary={true} label = "GUEST" onTouchTap={goGuest}/> <br/><br/>
           <div><i>(you data will be saved locally, and will sync when you log-in)</i></div>
+
+          <FlatButton primary={false} onTouchTap={() => {
+            try{
+              localStorage.clear()
+            }catch(err){}
+            alert("Locally saved data has been removed!")
+            console.log("Locally saved data has been removed!")
+          }}><span style={{fontSize:10, color:"red"}}>Delete local data</span></FlatButton>
         </Paper>
 
         <div style={styles.version}>v 0.0.1</div>
