@@ -1,5 +1,5 @@
 import {
-  ASSIGN_DEFAULTS, SNACKBAR_OPEN, LINK_DIALOG_OPEN, LINK_DIALOG_CLOSE, LINK_DIALOG_CHANGE, LINK_SAVE, FOLDER_SAVE, TOGGLE_DRAWER_DOCK, TOGGLE_DRAWER_OPEN, TOGGLE_ADD_OPEN, LOG_IN_CHANGE, SYNCH_CHANGE } from '../constants/ActionTypes';
+  ASSIGN_DEFAULTS, SNACKBAR_OPEN, LINK_DIALOG_OPEN, LINK_DIALOG_CLOSE, LINK_DIALOG_CHANGE, LINK_SAVE, FOLDER_SAVE, TOGGLE_DRAWER_DOCK, TOGGLE_DRAWER_OPEN, TOGGLE_ADD_OPEN, LOG_IN_CHANGE, SYNC_CHANGE } from '../constants/ActionTypes';
 import { VIEW_LIST, VIEW_CARD, SORT_USER, SORT_URL, SORT_DATE_ADDED, SORT_RATING, SORT_DATE_EXPIRE, SORT_ALPHABETICAL } from '../constants/SortAndView'
 import { UserModel, LinkModel, FolderModel } from '../constants/Models'
 
@@ -46,7 +46,7 @@ export default function localReducer (state = initialState, action){
       const { signUpNeeded, loggedIn, offline, } = action.payload
       return Object.assign({}, state, { signUpNeeded, loggedIn, offline, })
 
-    case SYNCH_CHANGE:
+    case SYNC_CHANGE:
       const { synchronized, userModel, storageInitialized } = action.payload
       if(userModel)
         return Object.assign({}, state, { synchronized, user:userModel, storageInitialized })

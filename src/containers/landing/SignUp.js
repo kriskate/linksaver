@@ -53,7 +53,7 @@ class SignUp extends Component{
         <Paper style={styles.paper2} zDepth={2}>
           <h3>OR continue as <b>guest</b></h3><br/>
           <RaisedButton primary={true} label = "GUEST" onTouchTap={goGuest}/> <br/><br/>
-          <div><i>(you data will be saved offline, and will synch when you log-in)</i></div>
+          <div><i>(you data will be saved offline, and will sync when you log-in)</i></div>
         </Paper>
       </div>
     )

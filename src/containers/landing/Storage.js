@@ -7,13 +7,13 @@ import { LocalStorageHandler, WebStorageHandler } from './StorageUtils'
 
 let defaultUserModel = new UserModel({}),
     _localStorage = new LocalStorageHandler(), _webStorage = new WebStorageHandler(),
-    _userModel, offline, synchronized, synch
+    _userModel, offline, synchronized, sync
 
 class Storage {
 
   init(props){
     offline = props.offline
-    synch = props.synch
+    sync = props.sync
 
     this.readData()
   }
@@ -25,11 +25,11 @@ class Storage {
   readData_done(data){
     if(!data){
       _userModel = defaultUserModel
-      synch({ synchronized:true, userModel: _userModel, storageInitialized:true })
+      sync({ synchronized:true, userModel: _userModel, storageInitialized:true })
       this.saveData(_userModel)
     } else{
       _userModel = typeof(data) == 'object' ? data : JSON.parse(data)
-      synch({ synchronized:true, userModel: _userModel })
+      sync({ synchronized:true, userModel: _userModel })
     }
   }
   readData_fail(err){
@@ -51,7 +51,7 @@ class Storage {
   }
   saveData_done(data){
     // great
-    synch({synchronized: true})
+    sync({synchronized: true})
   }
   saveData_fail(err){
     alert("Saving the data has failed! \r\n" + err)

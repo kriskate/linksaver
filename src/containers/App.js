@@ -108,7 +108,7 @@ function mapDispatchToProps(dispatch) {
   // to-do - these are tests; remove actions import after removing this
   let inc = 1
   /*setTimeout(function(){ dispatch(actions.logInChange(true)) }, inc)
-  setTimeout(function(){ dispatch(actions.synchChange(true))}, inc*2)*/
+  setTimeout(function(){ dispatch(actions.syncChange(true))}, inc*2)*/
 
   return{
     assignDefaultModels: ({link, folder}) => dispatch(actions.completeDefaults({link, folder})),

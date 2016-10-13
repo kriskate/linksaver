@@ -1,4 +1,4 @@
-import { SYNCH_CHANGE, LINK_SAVE, LINK_DELETE, FOLDER_SAVE, FOLDER_DELETE, FOLDER_SELECTED } from '../constants/ActionTypes';
+import { SYNC_CHANGE, LINK_SAVE, LINK_DELETE, FOLDER_SAVE, FOLDER_DELETE, FOLDER_SELECTED } from '../constants/ActionTypes';
 
 
 let initialState = {}
@@ -11,7 +11,7 @@ export default function folders (state = initialState, action){
 
   switch (action.type) {
 
-    case SYNCH_CHANGE:
+    case SYNC_CHANGE:
       let userModel = action.payload.userModel
       if(userModel)
         return Object.assign({}, state, {arr: userModel.folders, current:userModel.folders[0]})

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import CircularProgress from 'material-ui/CircularProgress'
 import Paper from 'material-ui/Paper';
 
-import { synchChange } from '../../actions'
+import { syncChange } from '../../actions'
 import Storage from './Storage'
 
 
@@ -33,11 +33,11 @@ const mapStateToProps = (state) => {
   }
 }
 const mapDispatchToProps = (dispatch) => ({
-    synch: (payload) => dispatch(synchChange(payload))
+    sync: (payload) => dispatch(syncChange(payload))
 })
-const Synchronize = ({ loggedIn, offline, synch, storageInitialized, }) => {
-  
-  if(!storageInitialized)Storage.init({ loggedIn, offline, synch })
+const Synchronize = ({ loggedIn, offline, sync, storageInitialized, }) => {
+
+  if(!storageInitialized)Storage.init({ loggedIn, offline, sync })
 
   return(
     <div style={styles.container}>

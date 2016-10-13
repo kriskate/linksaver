@@ -4,7 +4,7 @@ import {
   LINK_SAVE, LINK_DELETE, LINK_COPYURL,
   FOLDER_SAVE, FOLDER_DELETE, FOLDER_SELECTED,
   TOGGLE_DRAWER_DOCK, TOGGLE_DRAWER_OPEN, TOGGLE_ADD_OPEN,
-  SYNCH_CHANGE, LOG_IN_CHANGE
+  SYNC_CHANGE, LOG_IN_CHANGE
 } from '../constants/ActionTypes'
 
 export const snackbar = (payload) => ({type: SNACKBAR_OPEN, payload})
@@ -29,6 +29,6 @@ export const toggleDrawerOpen = (payload) => ({ type: TOGGLE_DRAWER_OPEN, payloa
 
 export const toggleAddOpen = (payload) => ({ type: TOGGLE_ADD_OPEN, payload })
 
-export const synchChange = (payload) => ({ type: SYNCH_CHANGE, payload })
+export const syncChange = (payload) => ({ type: SYNC_CHANGE, payload })
 
 export const logInChange = (payload) => ({ type: LOG_IN_CHANGE, payload })

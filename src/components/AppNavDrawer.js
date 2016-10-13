@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux'
-import { toggleDrawerOpen, folderSelected, logInChange, synchChange, } from '../actions'
+import { toggleDrawerOpen, folderSelected, logInChange, syncChange, } from '../actions'
 
 import Storage from '../containers/landing/Storage'
 
@@ -111,7 +111,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     goLanding: (ev) => {
       rememberLogin(false)
-      dispatch(synchChange({synchronized: false, storageInitialized: false, }))
+      dispatch(syncChange({synchronized: false, storageInitialized: false, }))
       dispatch(logInChange({signUpNeeded: false, offline: false, loggedIn: false}))
     },
     /* triggered when black overlay is clicked */
