@@ -41,12 +41,11 @@ export class App extends Component {
     // HACK - calling this here because we need state.folders.current
     if(!defaultsAssigned){
       assignDefaultModels({
-      //  link: new LinkModel({parent:folders.current}),
+        link: new LinkModel({}),
         folder: new FolderModel({})
       })
       defaultsAssigned = true
     }
-    console.log('app', signUpNeeded, synchronized, offline)
 
     return (
       loggedIn || offline
@@ -74,7 +73,7 @@ export class App extends Component {
               onRequestClose={snackbarClose}
             />
           </div>
-        : <Synchronize loggedIn offline/>
+        : <Synchronize />
       : signUpNeeded ? <SignUp /> : <Landing />
     )
   }
@@ -87,11 +86,12 @@ App.propTypes = {
 
 
 function mapStateToProps(state) {
+  //console.log('state',state)
   return {
     signUpNeeded: state.local.signUpNeeded,
     loggedIn: state.local.loggedIn,
     offline: state.local.offline,
-    
+
     drawerDocked: state.local.drawerDocked,
     drawerOpen: state.local.drawerOpen,
     synchronized: state.local.synchronized,

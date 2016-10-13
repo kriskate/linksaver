@@ -9,7 +9,7 @@ const initialState = {
   offline: false,
   synchronized: false,
 
-  user: new UserModel({}),
+  user: null,
   autoLogCookie: true,
   drawerOpen: false,
   addOpen: false,
@@ -44,9 +44,13 @@ export default function localReducer (state = initialState, action){
     case LOG_IN_CHANGE:
       const { signUpNeeded, loggedIn, offline, } = action.payload
       return Object.assign({}, state, { signUpNeeded, loggedIn, offline, })
+
     case SYNCH_CHANGE:
-      const { synchronized } = action.payload
-      return Object.assign({}, state, { synchronized })
+      const { synchronized, userModel } = action.payload
+      if(userModel)
+        return Object.assign({}, state, { synchronized, user:userModel })
+      else
+        return Object.assign({}, state, { synchronized })
 
     case SNACKBAR_OPEN:
       return state
@@ -66,8 +70,9 @@ export default function localReducer (state = initialState, action){
       let type = action.payload.link ? "link" : "folder"
       return dialog_linkChangedState(state, Object.assign({}, action.payload, { link: action.payload.link, folder: action.payload.folder, open: true, edit: !action.payload.isNew, type}))
     case LINK_DIALOG_CLOSE:
-      let removeData = action.payload.type == "link" ? action.payload.edit : false
-      return dialog_linkChangedState(state, {open: false, edit: action.payload.edit, removeDataL: removeData })
+      let removeDataL = action.payload.type == "link" ? action.payload.edit : false
+      let removeDataF = action.payload.type == "folder"
+      return dialog_linkChangedState(state, {open: false, edit: action.payload.edit, removeDataL, removeDataF })
     case LINK_DIALOG_CHANGE:
       return dialog_linkChangedState(state, {link:action.payload.link, folder:action.payload.folder, isSaveActive: action.payload.isSaveActive})
     case LINK_SAVE:

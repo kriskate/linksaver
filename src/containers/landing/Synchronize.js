@@ -8,7 +8,7 @@ import { synchChange } from '../../actions'
 import Storage from './Storage'
 
 
-let DB = new Storage();
+//let DB = new Storage();
 
 const styles = {
   container: {
@@ -23,16 +23,21 @@ const styles = {
   },
 }
 
+let storageInitialized
 
 const mapStateToProps = (state) => {
-  return {  }
+  return {
+    loggedIn: state.local.loggedIn,
+    offline: state.local.offline,
+  }
 }
 const mapDispatchToProps = (dispatch) => ({
-    synch: () => dispatch(synchChange({synchronized: true}))
+    synch: (payload) => dispatch(synchChange(payload))
 })
 const Synchronize = ({ loggedIn, offline, synch }) => {
-  console.log('Synchronize', offline)
-
+  if(!storageInitialized){
+    storageInitialized = true; Storage.init({ loggedIn, offline, synch })
+  }
   return(
     <div style={styles.container}>
       <Paper style={styles.paper}>

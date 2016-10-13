@@ -16,7 +16,6 @@ const finalCreateStore = compose(
   // Middleware you want to use in development:
   applyMiddleware(/*logger,*/ thunk),
     window.devToolsExtension ? window.devToolsExtension() : f => f,
-  // Required! Enable Redux DevTools with the monitors you chose
   /*DevTools.instrument()*/
 )(createStore);
 

@@ -10,8 +10,8 @@ import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit'
 
 
 
-const EditBtn = ({editFolder}) => (
-    <EditorModeEdit onTouchTap={editFolder} color={'#fff'} hoverColor={"#666"} />
+const EditBtn = () => (
+    <EditorModeEdit color={'#fff'} hoverColor={"#666"} />
 )
 
 const styles = {

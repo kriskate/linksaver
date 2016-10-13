@@ -16,8 +16,7 @@ import folders from './folders';
  * More info: http://rackt.org/redux/docs/api/combineReducers.html
  */
 const rootReducer = combineReducers({
-  local,
-  folders,
+  folders, local
 });
 
 export default rootReducer;

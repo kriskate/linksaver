@@ -30,7 +30,7 @@ let s1, s2, s3, s4, s5
 let checks = [true,false,false,false,false]
 export default class Rating extends Component {
   starChecked(star,d,r){
-    console.log(star.target.value)
+    //console.log(star.target.value)
   }
   render(){
 

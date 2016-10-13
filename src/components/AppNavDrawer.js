@@ -41,7 +41,7 @@ const styles = {
 };
 
   const editBtn = (edit) => (
-      <EditorModeEdit onTouchTap={edit} />
+      <EditorModeEdit /*onTouchTap={edit}*/ />
   )
   const FolderItem = (folder) => (
     <ListItem key={folder.id} initiallyOpen={true} primaryText={folder.name} value={folder}
@@ -70,10 +70,10 @@ class AppNavDrawer extends Component {
         </div>
         <Divider />
         <ListItem key={0}
-          leftAvatar={<Avatar src={user.pic} />} primaryText={"profile"}
+          leftAvatar={<Avatar src={user.pic} />} primaryText={user.username}
         nestedItems={[
-          <ListItem key={0} rightIconButton={editBtn()} primaryText={user.username}/>,
-          <ListItem key={1} rightIcon={<EditorModeEdit />} primaryText={user.email}/>,
+          /*<ListItem key={0} rightIconButton={<editBtn/>} primaryText={user.username}/>,
+          <ListItem key={1} rightIcon={<EditorModeEdit />} primaryText={user.email}/>,*/
         ]}
           />
         <SelectableList

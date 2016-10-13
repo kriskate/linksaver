@@ -7,7 +7,6 @@ import TextField from 'material-ui/TextField';
 
 import { logInChange } from '../../actions'
 
-import Storage from "./Storage";
 
 
 let styles = {

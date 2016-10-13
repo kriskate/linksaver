@@ -143,7 +143,6 @@ class NewLink extends Component {
     const { id, name, url, pic, description, date_added, date_expire, rating, archived, parent } = initState
     tempState = Object.assign({}, initState)
 
-
     return (
       <form id="form" onSubmit={(ev) => { ev.preventDefault(); save(edit, !quick)}}>
 
