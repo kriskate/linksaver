@@ -17,7 +17,7 @@ export const handleLink_DialogChange = (payload) => ({ type: LINK_DIALOG_CHANGE,
 // linkData {link, edit}
 export const linkSave = (payload) => { return { type: LINK_SAVE, payload }} // {folder, edit}
 export const linkDelete = (payload) => { return { type: LINK_DELETE, payload }}
-export const linkCopyURL = (link) => { return { type: LINK_COPYURL, link }}
+export const linkCopyURL = (payload) => { return { type: LINK_COPYURL, payload }}
 
 
 export const folderSave = (payload) => ({ type: FOLDER_SAVE, payload }) // {folder, edit}

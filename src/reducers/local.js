@@ -1,5 +1,5 @@
 import {
-  ASSIGN_DEFAULTS, SNACKBAR_OPEN, LINK_DIALOG_OPEN, LINK_DIALOG_CLOSE, LINK_DIALOG_CHANGE, LINK_SAVE, FOLDER_SAVE, TOGGLE_DRAWER_DOCK, TOGGLE_DRAWER_OPEN, TOGGLE_ADD_OPEN, LOG_IN_CHANGE, SYNC_CHANGE } from '../constants/ActionTypes';
+  ASSIGN_DEFAULTS, SNACKBAR_OPEN, LINK_DIALOG_OPEN, LINK_DIALOG_CLOSE, LINK_DIALOG_CHANGE, LINK_SAVE, LINK_COPYURL, FOLDER_SAVE, TOGGLE_DRAWER_DOCK, TOGGLE_DRAWER_OPEN, TOGGLE_ADD_OPEN, LOG_IN_CHANGE, SYNC_CHANGE } from '../constants/ActionTypes';
 import { VIEW_LIST, VIEW_CARD, SORT_USER, SORT_URL, SORT_DATE_ADDED, SORT_RATING, SORT_DATE_EXPIRE, SORT_ALPHABETICAL } from '../constants/SortAndView'
 import { UserModel, LinkModel, FolderModel } from '../constants/Models'
 
@@ -20,6 +20,7 @@ const initialState = {
 
   addButtonExpanded: false,
   link_dialog: { isSaveActive: false, open: false, edit: false, link: {}, folder: {} },
+  linkcopy_dialog: { open: false },
 }
 
 
@@ -76,6 +77,8 @@ export default function localReducer (state = initialState, action){
       return dialog_linkChangedState(state, {open: false, edit: action.payload.edit, removeDataL, removeDataF })
     case LINK_DIALOG_CHANGE:
       return dialog_linkChangedState(state, {link:action.payload.link, folder:action.payload.folder, isSaveActive: action.payload.isSaveActive})
+    case LINK_COPYURL:
+      return Object.assign({}, state, {linkcopy_dialog:{ open: action.payload.open, link: action.payload.link || {} }})
     case LINK_SAVE:
       return dialog_linkChangedState(state, {removeDataL: true})
     case FOLDER_SAVE:

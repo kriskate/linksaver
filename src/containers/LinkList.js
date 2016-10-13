@@ -34,8 +34,7 @@ let LinkList = ({
           linkEdit={ (ev) => { ev.stopPropagation(); ev.preventDefault(); actions.handleLink_DialogOpen({link});} }
           linkDelete={ () => { actions.linkDelete({link});
           actions.snackbar({ message: "Link deleted!" }); }}
-          linkCopyURL={ () => { actions.linkCopyURL(link);
-          actions.snackbar({ message: "Link copied to clipboard!" }); }}
+          linkCopyURL={ () => { actions.linkCopyURL({link, open:true}) } }
         />
     )}
   </List>

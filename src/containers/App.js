@@ -19,6 +19,7 @@ import NewLinkPage from './NewLinkPage'
 import NewLinkDialog from './NewLinkDialog'
 import NewLinkFloatingButton from './NewLinkFloatingButton'
 
+import CopyURLDialog from './CopyURLDialog'
 import Snackbar from 'material-ui/Snackbar';
 
 let defaultsAssigned
@@ -29,7 +30,7 @@ export class App extends Component {
       drawerDocked, drawerOpen,
       folders,
       width, lastWidth,
-      link_dialog,
+      link_dialog, linkcopy_dialog, closeHandler_linkCopy,
       snackbar, snackbarClose,
       assignDefaultModels,
     } = this.props
@@ -56,6 +57,7 @@ export class App extends Component {
               ? <NewLinkPage {...link_dialog} />
               : <NewLinkDialog {...link_dialog} />
             }
+            <CopyURLDialog {...linkcopy_dialog} closeHandler={closeHandler_linkCopy}/>
             <AppNavDrawer /*location={location}*/
               user={user} folders={folders}
               docked={_drawerDocked} open={_drawerOpen} />
@@ -98,6 +100,7 @@ function mapStateToProps(state) {
     user: state.local.user,
     snackbar: state.local.snackbar,
     link_dialog: state.local.link_dialog,
+    linkcopy_dialog: state.local.linkcopy_dialog,
 
     folders: state.folders,
   };
@@ -111,6 +114,7 @@ function mapDispatchToProps(dispatch) {
   setTimeout(function(){ dispatch(actions.syncChange(true))}, inc*2)*/
 
   return{
+    closeHandler_linkCopy: () => dispatch(actions.linkCopyURL({open:false})),
     assignDefaultModels: ({link, folder}) => dispatch(actions.completeDefaults({link, folder})),
     snackbarClose: (reason) => dispatch(actions.snackbar({open:false})),
   }
