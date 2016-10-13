@@ -103,7 +103,7 @@ class Landing extends Component{
           <h3>OR</h3>
           <RaisedButton primary={true} label = "SIGN UP" onTouchTap={goSignup} />
         </Paper>*/}
-          <h3>{/*OR */}continue as <b>guest</b></h3><br/>
+          <h3>OR continue as <b>guest</b></h3><br/>
           <RaisedButton primary={true} label = "GUEST" onTouchTap={goGuest}/>
           <br/><br/><CheckBox label="remember this choice" style={styles.remember} inputStyle={styles.rememberInput} onCheck={(ev, checked) => rememberLogin(checked, "offline")} />
           <br/><br/>

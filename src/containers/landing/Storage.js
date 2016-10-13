@@ -41,7 +41,7 @@ class Storage {
   saveData(data) {
     let { id, username, pass, folders, pic, email } = data
     let setData = {
-      id: id || _userModel.id, username: username || _userModel.id, pass: pass || _userModel.pass,
+      id: id || _userModel.id, username: username || _userModel.username, pass: pass || _userModel.pass,
       folders: folders || _userModel.folders, pic: pic || _userModel.pic, email: email || _userModel.email
     }
 
