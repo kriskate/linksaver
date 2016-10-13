@@ -50,7 +50,7 @@ const
 
 
 let quick, tempState, initState = null
-
+let urlInterval, urlIntervalTime = 1000
 
 
 
@@ -85,17 +85,23 @@ function mapDispatchToProps(dispatch){
             changedProp = "url"
             // to-do: separate linkDialog state in a separate reducer
             // to-do(maybe): after separation, add name_blurred and url_blurred, in order to display errors only after the field have beed de-focused
-            if(isValidURL(payload))
-              tempState.name
-              ? dispatch(handleLink_DialogChange({isSaveActive:true}))
-              : getURLTitle(payload).then((name) => {
-                if(name){
-                  tempState.name = name
-                  let isSaveActive = true
-                  dispatch(handleLink_DialogChange({link:{name}, isSaveActive}))
-                }
-              }).catch((err) => { !tempState.name && dispatch(handleLink_DialogChange({link:{name: tempState.url}, isSaveActive})) })
-            quick && !tempState.name && dispatch(handleLink_DialogChange({link:{name: tempState.url}}))
+            if(!urlInterval){
+              console.log('here')
+              urlInterval = setTimeout(function(){console.log(urlInterval); urlInterval = null;}, urlIntervalTime)
+              if(isValidURL(payload)){
+                tempState.name
+                ? dispatch(handleLink_DialogChange({isSaveActive:true}))
+                : getURLTitle(payload).then((name) => {
+                  if(name){
+                    tempState.name = name
+                    let isSaveActive = true
+                    dispatch(handleLink_DialogChange({link:{name}, isSaveActive}))
+                  }
+                }).catch((err) => { !tempState.name && dispatch(handleLink_DialogChange({link:{name: tempState.url.split('.')[0]}, isSaveActive})) })
+                // force-feed the url name
+                quick && !tempState.name && dispatch(handleLink_DialogChange({link:{name: tempState.url.split('.')[0]}}))
+              }
+            }
           break
           case ATTR_NAME:
             tempState.name = payload
