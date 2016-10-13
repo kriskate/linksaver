@@ -73,11 +73,24 @@ const mapDispatchToProps = (dispatch) => {
     goGuest: (ev) => dispatch(logInChange({offline:true})),
   }
 }
-
+const remember = (checked, what) => {
+  what = checked ? what : null
+  try{
+    localStorage.setItem("autologin", what)
+  }catch(err){ /* browser does not support localStorage */ }
+}
 
 let input_user, input_pass;
 
 class Landing extends Component{
+  constructor(props, context){
+    super(props, context)
+    try{
+      let autologin = localStorage.getItem("autologin")
+      if(autologin == "offline")
+        props.goGuest()
+    }catch (err){}
+  }
   render(){
     const { goLogin, goSignup, goGuest } = this.props
     return (
@@ -97,7 +110,8 @@ class Landing extends Component{
         </Paper>*/}
           <h3>{/*OR */}continue as <b>guest</b></h3><br/>
           <RaisedButton primary={true} label = "GUEST" onTouchTap={goGuest}/>
-          <br/><br/><CheckBox label="remember this choice" style={styles.remember} inputStyle={styles.rememberInput} /> <br/><br/>
+          <br/><br/><CheckBox label="remember this choice" style={styles.remember} inputStyle={styles.rememberInput} onCheck={(ev, checked) => remember(checked, "offline")} />
+          <br/><br/>
           <div><i>(your data will be saved locally, and will sync when you log-in)</i></div>
 
           <FlatButton primary={false} onTouchTap={() => {
