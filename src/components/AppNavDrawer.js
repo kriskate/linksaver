@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux'
-import { toggleDrawerOpen, folderSelected } from '../actions'
+import { toggleDrawerOpen, folderSelected, logInChange, } from '../actions'
 
 
 import Drawer from 'material-ui/Drawer';
@@ -13,10 +13,12 @@ import MenuItem from 'material-ui/MenuItem';
 import NewFolder from './NewFolder'
 
 import { FolderModel } from '../constants/Models'
+import { rememberLogin } from '../utils/Utils'
 
 import {spacing, typography, zIndex} from 'material-ui/styles';
 import {cyan500,grey900,blue500} from 'material-ui/styles/colors';
 import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit'
+import IconHome from 'material-ui/svg-icons/action/home'
 import IconButton from 'material-ui/IconButton'
 
 let SelectableList = MakeSelectable(List);
@@ -55,7 +57,7 @@ class AppNavDrawer extends Component {
 
   render() {
     const { folders, location, docked,
-            drawerNav, drawerChangeList,
+            drawerNav, drawerChangeList, goLanding,
             open, user,
             link_dialog,
     } = this.props;
@@ -74,6 +76,7 @@ class AppNavDrawer extends Component {
         nestedItems={[
           /*<ListItem key={0} rightIconButton={<editBtn/>} primaryText={user.username}/>,
           <ListItem key={1} rightIcon={<EditorModeEdit />} primaryText={user.email}/>,*/
+          <ListItem key={1} rightIcon={<IconHome />} primaryText={"Log-in"} onTouchTap={goLanding}/>,
         ]}
           />
         <SelectableList
@@ -105,6 +108,10 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
+    goLanding: (ev) => {
+      rememberLogin(false)
+      dispatch(logInChange({signUpNeeded: false, offline: false, loggedIn: false}))
+    },
     /* triggered when black overlay is clicked */
     drawerNav: () => dispatch(toggleDrawerOpen()),
     /* triggered when a menu item is clicked */

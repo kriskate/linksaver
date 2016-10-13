@@ -1,6 +1,15 @@
 import {blue500, blue700, pink500, green500} from 'material-ui/styles/colors'
 
 
+export const rememberLogin = (checked, what) => {
+    what = checked ? what : null
+    try{
+      localStorage.setItem("autologin", what)
+    }catch(err){ /* browser does not support localStorage */ }
+}
+
+
+
 export const setMobileChromeThemeColor = (hex="#1976D2") => {
   // to-do: integrate into folder changing
   document.querySelectorAll('[name="theme-color"]')[0].setAttribute("content",hex);
