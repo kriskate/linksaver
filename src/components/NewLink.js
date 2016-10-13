@@ -42,7 +42,7 @@ const
 
   styles = {
     url: {  minWidth:20, marginRight:15, },
-    quick_url: { minWidth: 20, width: "calc(100% - 90px)", },
+    quick_url: { marginLeft:15, marginRight:10, minWidth: 20, width: "calc(100% - 120px)", },
     add: { zIndex: 2, marginBottom:10 },
     errorStyle: { color: orange500, },
     floatingLabelFocusStyle: { color: blue500, },
