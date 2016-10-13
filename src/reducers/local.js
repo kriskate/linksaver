@@ -8,6 +8,7 @@ const initialState = {
   loggedIn: false,
   offline: false,
   synchronized: false,
+  storageInitialized: false,
 
   user: null,
   autoLogCookie: true,
@@ -46,11 +47,11 @@ export default function localReducer (state = initialState, action){
       return Object.assign({}, state, { signUpNeeded, loggedIn, offline, })
 
     case SYNCH_CHANGE:
-      const { synchronized, userModel } = action.payload
+      const { synchronized, userModel, storageInitialized } = action.payload
       if(userModel)
-        return Object.assign({}, state, { synchronized, user:userModel })
+        return Object.assign({}, state, { synchronized, user:userModel, storageInitialized })
       else
-        return Object.assign({}, state, { synchronized })
+        return Object.assign({}, state, { synchronized, storageInitialized })
 
     case SNACKBAR_OPEN:
       return state

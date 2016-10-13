@@ -27,6 +27,7 @@ let storageInitialized
 
 const mapStateToProps = (state) => {
   return {
+    storageInitialized: state.local.storageInitialized,
     loggedIn: state.local.loggedIn,
     offline: state.local.offline,
   }
@@ -34,10 +35,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     synch: (payload) => dispatch(synchChange(payload))
 })
-const Synchronize = ({ loggedIn, offline, synch }) => {
-  if(!storageInitialized){
-    storageInitialized = true; Storage.init({ loggedIn, offline, synch })
-  }
+const Synchronize = ({ loggedIn, offline, synch, storageInitialized, }) => {
+  
+  if(!storageInitialized)Storage.init({ loggedIn, offline, synch })
+
   return(
     <div style={styles.container}>
       <Paper style={styles.paper}>

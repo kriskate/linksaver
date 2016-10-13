@@ -25,7 +25,7 @@ class Storage {
   readData_done(data){
     if(!data){
       _userModel = defaultUserModel
-      synch({ synchronized:true, userModel: _userModel })
+      synch({ synchronized:true, userModel: _userModel, storageInitialized:true })
       this.saveData(_userModel)
     } else{
       _userModel = typeof(data) == 'object' ? data : JSON.parse(data)
