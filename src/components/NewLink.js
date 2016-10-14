@@ -86,8 +86,7 @@ function mapDispatchToProps(dispatch){
             // to-do: separate linkDialog state in a separate reducer
             // to-do(maybe): after separation, add name_blurred and url_blurred, in order to display errors only after the field have beed de-focused
             if(!urlInterval){
-              console.log('here')
-              urlInterval = setTimeout(function(){console.log(urlInterval); urlInterval = null;}, urlIntervalTime)
+              urlInterval = setTimeout(function(){ urlInterval = null;}, urlIntervalTime)
               if(isValidURL(payload)){
                 tempState.name
                 ? dispatch(handleLink_DialogChange({isSaveActive:true}))

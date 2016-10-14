@@ -1,5 +1,3 @@
-import uuid from 'node-uuid'
-
 import { UserModel } from '../../constants/Models'
 
 import { LocalStorageHandler, WebStorageHandler } from './StorageUtils'

@@ -30,10 +30,11 @@ module.exports = {
      * your production code through this!
      */
     new webpack.optimize.UglifyJsPlugin({
+      mangle: true,
       compressor: {
         warnings: false
-      }
-    })
+      },
+    }),
   ],
   module: {
     loaders: [

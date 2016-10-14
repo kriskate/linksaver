@@ -114,12 +114,11 @@ class Landing extends Component{
               localStorage.clear()
             }catch(err){}
             alert("Locally saved data has been removed!")
-            console.log("Locally saved data has been removed!")
           }}><span style={{fontSize:10, color:"red"}}>Delete local data</span></FlatButton>
         </Paper>
       </div>
 
-      <div style={styles.version}>v 0.0.1</div>
+      <div style={styles.version}>v 0.1.0</div>
       </div>
     )
   }
