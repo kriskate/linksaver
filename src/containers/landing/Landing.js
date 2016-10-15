@@ -58,8 +58,10 @@ let styles = {
   },
 }
 
-const mapStateToProps = () => {
-  return {}
+const mapStateToProps = (state) => {
+  return {
+    username: state.local.username,
+  }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -71,11 +73,14 @@ const mapDispatchToProps = (dispatch) => {
       }
     },
     goSignup: (ev) => dispatch(logInChange({signUpNeeded:true})),
-    goGuest: (ev) => dispatch(logInChange({offline:true})),
+    goGuest: (ev, refs) => {
+      let username = refs.input_user_guest.getValue().trim()
+      dispatch(logInChange({ offline:true, username, }))
+    }
   }
 }
 
-let input_user, input_pass;
+let input_user, input_pass, input_user_guest
 
 class Landing extends Component{
   constructor(props, context){
@@ -87,7 +92,7 @@ class Landing extends Component{
     }catch (err){}
   }
   render(){
-    const { goLogin, goSignup, goGuest } = this.props
+    const { goLogin, goSignup, goGuest, username, } = this.props
     return (
       <div style={styles.wrapper}>
       <div style={styles.container}>
@@ -104,7 +109,8 @@ class Landing extends Component{
           <RaisedButton primary={true} label = "SIGN UP" onTouchTap={goSignup} />
         </Paper>*/}
           <h3>OR continue as <b>guest</b></h3><br/>
-          <RaisedButton primary={true} label = "GUEST" onTouchTap={goGuest}/>
+          <TextField ref="input_user_guest" floatingLabelText="username" defaultValue={username} /> <br/>
+          <RaisedButton primary={true} label = "GUEST" onTouchTap={(ev) => goGuest(ev, this.refs)}/>
           <br/><br/><CheckBox label="remember this choice" style={styles.remember} inputStyle={styles.rememberInput} onCheck={(ev, checked) => rememberLogin(checked, "offline")} />
           <br/><br/>
           <div><i>(your data will be saved locally, and will sync when you log-in)</i></div>

@@ -13,6 +13,8 @@ class Storage {
     offline = props.offline
     sync = props.sync
 
+    if(props.username) defaultUserModel.username = props.username
+
     this.readData()
   }
   readData(){

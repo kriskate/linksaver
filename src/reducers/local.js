@@ -7,6 +7,7 @@ const initialState = {
   signUpNeeded: false,
   loggedIn: false,
   offline: false,
+  username: "",
   synchronized: false,
   storageInitialized: false,
 
@@ -44,8 +45,8 @@ const dialog_linkChangedState = (state, {link, folder, open, edit, isSaveActive,
 export default function localReducer (state = initialState, action){
   switch (action.type) {
     case LOG_IN_CHANGE:
-      const { signUpNeeded, loggedIn, offline, } = action.payload
-      return Object.assign({}, state, { signUpNeeded, loggedIn, offline, })
+      const { signUpNeeded, loggedIn, offline, username, } = action.payload
+      return Object.assign({}, state, { signUpNeeded, loggedIn, offline, username, })
 
     case SYNC_CHANGE:
       const { synchronized, userModel, storageInitialized } = action.payload
