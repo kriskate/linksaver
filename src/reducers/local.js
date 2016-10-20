@@ -29,7 +29,7 @@ const dialog_linkChangedState = (state, {link, folder, open, edit, isSaveActive,
   open = open === undefined ? state.link_dialog.open : open
   edit = edit === undefined ? state.link_dialog.edit : edit
   isSaveActive = isSaveActive === undefined ? state.link_dialog.isSaveActive : isSaveActive
-  if(link && link.name && link.name.length > 50) link.name = link.name.substring(0, 50)
+  if(link && link.name && link.name.length > 50) link.name = link.name.substring(0, 60)
 
   return Object.assign({}, state, {
     link_dialog: {
