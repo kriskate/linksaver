@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux'
-import { toggleDrawerOpen, folderSelected, logInChange, syncChange, } from '../actions'
+import { completeDefaults, toggleDrawerOpen, folderSelected, logInChange, syncChange, } from '../actions'
 
 import Storage from '../containers/landing/Storage'
 
@@ -13,7 +13,7 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import NewFolder from './NewFolder'
 
-import { FolderModel } from '../constants/Models'
+import { FolderModel, LinkModel } from '../constants/Models'
 import { rememberLogin } from '../utils/Utils'
 
 import {spacing, typography, zIndex} from 'material-ui/styles';
@@ -118,8 +118,9 @@ const mapDispatchToProps = (dispatch) => {
     drawerNav: () => dispatch(toggleDrawerOpen()),
     /* triggered when a menu item is clicked */
     drawerChangeList: (event, folder) => {
-      dispatch(folderSelected(folder));
-      dispatch(toggleDrawerOpen(false));
+      dispatch(completeDefaults({link: new LinkModel({}), folder}))
+      dispatch(folderSelected(folder))
+      dispatch(toggleDrawerOpen(false))
     }
   }
 }

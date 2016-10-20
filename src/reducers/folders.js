@@ -42,7 +42,7 @@ export default function folders (state = initialState, action){
     case LINK_SAVE:
       let nf = JSON.parse(JSON.stringify(current))
       let link = action.payload.link
-      link.parent = { id: current.id, name: current.name }
+      link.parent = { id: current.id, name: current.name, isGoto: current.isGoto }
 
       if(action.payload.edit)
         nf.links[nf.links.findIndex(li => li.id == link.id)] = link

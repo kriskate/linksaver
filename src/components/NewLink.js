@@ -178,14 +178,16 @@ class NewLink extends Component {
             floatingLabelText={LABEL_DESC} floatingLabelStyle={styles.floatingLabelFocusStyle} floatingLabelFixed={true}
             hintText={LABEL_DESC_HINT}
             value={description || ""}/>
+            { parent.isGoto ? null :
             <div>
               { edit ? LABEL_EXPY_EDIT : LABEL_EXPY }
               {/*to-do: come back to this withWidth problem */}
               <DatePicker container={/* width < MEDIUM ? "dialog" : */"inline"} mode="portrait" autoOk={true}
               id={ATTR_EXPY} onChange={handleChange} defaultDate={date_expire} />
-              <div>{LABEL_RATE}</div>
-              <Rater id={ATTR_RATE} onRate={handleChange} rating={rating}/>
             </div>
+            }
+            <div>{LABEL_RATE}</div>
+            <Rater id={ATTR_RATE} onRate={handleChange} rating={rating}/>
           </CardText>
        </Card>
        }

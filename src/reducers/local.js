@@ -67,6 +67,7 @@ export default function localReducer (state = initialState, action){
       return Object.assign({}, state, { addOpen: action.payload === false ? false : !state.addOpen })
 
     case ASSIGN_DEFAULTS:
+      action.payload.link.parent = action.payload.folder
       return dialog_linkChangedState(state, action.payload)
 
     case LINK_DIALOG_OPEN:
