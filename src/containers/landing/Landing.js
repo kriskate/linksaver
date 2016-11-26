@@ -74,7 +74,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     goSignup: (ev) => dispatch(logInChange({signUpNeeded:true})),
     goGuest: (ev, refs) => {
-      let username = refs.input_user_guest.getValue().trim()
+      let username = refs.input_user_guest.getValue() || "Guest"
       dispatch(logInChange({ offline:true, username, }))
     }
   }
@@ -88,7 +88,7 @@ class Landing extends Component{
     try{
       let autologin = localStorage.getItem("autologin")
       if(autologin == "offline")
-        props.goGuest()
+        setTimeout(() => props.goGuest(null, this.refs), 0)
     }catch (err){}
   }
   render(){
