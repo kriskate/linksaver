@@ -45,6 +45,7 @@
     "webpack-hot-middleware": "^2.6.0"
   },
   "dependencies": {
+    "compression-webpack-plugin": "^0.3.2",
     "firebase": "^3.3.0",
     "material-ui": "^0.15.4",
     "node-uuid": "^1.4.7",
