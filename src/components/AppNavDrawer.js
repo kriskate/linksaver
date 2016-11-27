@@ -118,7 +118,7 @@ const mapDispatchToProps = (dispatch) => {
     drawerNav: () => dispatch(toggleDrawerOpen()),
     /* triggered when a menu item is clicked */
     drawerChangeList: (event, folder) => {
-      dispatch(completeDefaults({link: new LinkModel({}), folder}))
+      dispatch(completeDefaults({link: new LinkModel({}), folder: new FolderModel({})}))
       dispatch(folderSelected(folder))
       dispatch(toggleDrawerOpen(false))
     }

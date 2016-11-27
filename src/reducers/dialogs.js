@@ -18,10 +18,8 @@ const dialog_linkChangedState = (state, {
   open=state.dialog.open, edit=state.dialog.edit, isSaveActive=state.dialog.isSaveActive, type=state.dialog.type,
   removeDataL, removeDataF,
 }) => {
-  console.log('er', link, folder)
   // here we will restrict the link title
   if(link && link.name && link.name.length > 60) link.name = link.name.substring(0, 60)
-//console.log('ere', link, removeDataL)
   return Object.assign({}, state, {
     dialog: {
       open, edit, isSaveActive, type,
@@ -52,10 +50,6 @@ export default function dialogs (state = initialState, action){
         removeDataL, removeDataF,
       })
     case LINK_DIALOG_CHANGE:
-    console.log("change", state)
-    console.log("ddd",dialog_linkChangedState(state, {
-      link:action.payload.link, folder:action.payload.folder, isSaveActive: action.payload.isSaveActive
-    }))
       return dialog_linkChangedState(state, {
         link:action.payload.link, folder:action.payload.folder, isSaveActive: action.payload.isSaveActive
       })

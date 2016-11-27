@@ -56,7 +56,6 @@ function mapStateToProps(state){
       return toR
     },
     getFolder: () => {
-      console.log(state.dialogs)
       let toR = Object.keys(state.dialogs.folder).length > 0 ? state.dialogs.folder : new FolderModel({})
       return toR
     }

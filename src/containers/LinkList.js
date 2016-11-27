@@ -27,7 +27,6 @@ let LinkList = ({
   dialogs
  }) => (
   <List style={styles.list}>
-        {/*<Subheader>{currentF.name}</Subheader>*/console.log(dialogs.link)}
       <NewLink link={Object.assign({}, dialogs.link, {edit:false})} quick={true}/>
     { links.filter((link) => link.parent.id == currentF.id).map((link, id) =>
         <Link card={false} key={id} {...link}

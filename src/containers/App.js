@@ -88,7 +88,6 @@ App.propTypes = {
 
 
 function mapStateToProps(state) {
-  console.log('state',state)
   return {
     signUpNeeded: state.local.signUpNeeded,
     loggedIn: state.local.loggedIn,
