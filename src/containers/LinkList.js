@@ -24,11 +24,11 @@ const styles = {
 let LinkList = ({
   currentF, links,
   actions,
-  link_dialog
+  dialogs
  }) => (
   <List style={styles.list}>
-        {/*<Subheader>{currentF.name}</Subheader>*/}
-      <NewLink link={Object.assign({}, link_dialog.link, {edit:false})} quick={true}/>
+        {/*<Subheader>{currentF.name}</Subheader>*/console.log(dialogs.link)}
+      <NewLink link={Object.assign({}, dialogs.link, {edit:false})} quick={true}/>
     { links.filter((link) => link.parent.id == currentF.id).map((link, id) =>
         <Link card={false} key={id} {...link}
           linkEdit={ (ev) => { ev.stopPropagation(); ev.preventDefault(); actions.handleLink_DialogOpen({link});} }
@@ -47,7 +47,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     links: ownProps.links,
     currentF: state.folders.current,
-    link_dialog: state.local.link_dialog,
+    dialogs: state.dialogs,
   }
 }
 

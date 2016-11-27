@@ -33,7 +33,7 @@ class NewLinkDialog extends Component{
     shouldSave && this.refs.newlink.getWrappedInstance().reset()
   }
   render() {
-    const { isSaveActive, edit, open, handleClose, link, folder, type } = this.props
+    const { isSaveActive, edit, open, handleClose, link, folder, type } = this.props.dialog
     const action_buttons = [
       <FlatButton primary={true} label={LABEL_CANCEL}
         onTouchTap={() => this.handleExit({type, edit})} />,
@@ -51,7 +51,7 @@ class NewLinkDialog extends Component{
         modal={false}
         open={open} onRequestClose={() => this.handleExit({type, edit})} >
 
-        <Content ref="newlink" {...this.props} />
+        <Content ref="newlink" {...this.props.dialog} />
       </Dialog>
     )
   }

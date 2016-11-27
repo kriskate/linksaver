@@ -30,7 +30,7 @@ export class App extends Component {
       drawerDocked, drawerOpen,
       folders,
       width, lastWidth,
-      link_dialog, linkcopy_dialog, closeHandler_linkCopy,
+      dialogs, linkcopy_dialog, closeHandler_linkCopy,
       snackbar, snackbarClose,
       assignDefaultModels,
     } = this.props
@@ -54,8 +54,8 @@ export class App extends Component {
         ? <div>
             {
               _mobile
-              ? <NewLinkPage {...link_dialog} />
-              : <NewLinkDialog {...link_dialog} />
+              ? <NewLinkPage {...dialogs} />
+              : <NewLinkDialog {...dialogs} />
             }
             <CopyURLDialog {...linkcopy_dialog} closeHandler={closeHandler_linkCopy}/>
             <AppNavDrawer /*location={location}*/
@@ -67,7 +67,7 @@ export class App extends Component {
               <Content current={folders.current} showMenuIconButton={!_drawerDocked} />
               <Footer />
             </div>
-              <NewLinkFloatingButton hidden={link_dialog.open} />
+              <NewLinkFloatingButton hidden={dialogs.dialog.open} />
             <Snackbar
               open={snackbar.open}
               message={snackbar.message}
@@ -88,7 +88,7 @@ App.propTypes = {
 
 
 function mapStateToProps(state) {
-  //console.log('state',state)
+  console.log('state',state)
   return {
     signUpNeeded: state.local.signUpNeeded,
     loggedIn: state.local.loggedIn,
@@ -99,8 +99,8 @@ function mapStateToProps(state) {
     synchronized: state.local.synchronized,
     user: state.local.user,
     snackbar: state.local.snackbar,
-    link_dialog: state.local.link_dialog,
-    linkcopy_dialog: state.local.linkcopy_dialog,
+    dialogs: state.dialogs,
+    linkcopy_dialog: state.dialogs.linkcopy_dialog,
 
     folders: state.folders,
   };

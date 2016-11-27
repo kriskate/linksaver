@@ -60,7 +60,7 @@ class AppNavDrawer extends Component {
     const { folders, location, docked,
             drawerNav, drawerChangeList, goLanding,
             open, user,
-            link_dialog,
+            dialogs,
     } = this.props;
     return (
       <Drawer
@@ -96,7 +96,7 @@ class AppNavDrawer extends Component {
 
         </SelectableList>
         <Divider />
-        <NewFolder folder={Object.assign({}, link_dialog.folder, {edit:false})} quick={true}/>
+        <NewFolder folder={Object.assign({}, dialogs.folder, {edit:false})} quick={true}/>
       </Drawer>
     )
   }
@@ -104,7 +104,7 @@ class AppNavDrawer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    link_dialog: state.local.link_dialog,
+    dialogs: state.dialogs,
   }
 }
 const mapDispatchToProps = (dispatch) => {

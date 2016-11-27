@@ -52,11 +52,12 @@ function mapStateToProps(state){
   return{
     open: state.local.addOpen,
     getLink: () => {
-      let toR = Object.keys(state.local.link_dialog.link).length > 0 ? state.local.link_dialog.link : new LinkModel({})
+      let toR = Object.keys(state.dialogs.link).length > 0 ? state.dialogs.link : new LinkModel({})
       return toR
     },
     getFolder: () => {
-      let toR = Object.keys(state.local.link_dialog.folder).length > 0 ? state.local.link_dialog.folder : new FolderModel({})
+      console.log(state.dialogs)
+      let toR = Object.keys(state.dialogs.folder).length > 0 ? state.dialogs.folder : new FolderModel({})
       return toR
     }
   }

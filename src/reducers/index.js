@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import local from './local';
 import folders from './folders';
+import dialogs from './dialogs';
 
 /**
  * combineReducers is important to understand. As your app might grow in size
@@ -16,7 +17,7 @@ import folders from './folders';
  * More info: http://rackt.org/redux/docs/api/combineReducers.html
  */
 const rootReducer = combineReducers({
-  folders, local
+  folders, local, dialogs
 });
 
 export default rootReducer;
